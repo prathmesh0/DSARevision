@@ -95,14 +95,102 @@ int gcdOfNumber(int num1, int num2)
         return num1;
     return gcdOfNumber(num2, num1 % num2);
 }
+
+void isArmstrong(int num)
+{
+    int temp = num;
+    int count = 0;
+    while (temp != 0)
+    {
+        temp = temp / 10;
+        count++;
+    }
+    temp = num;
+    int ans = 0;
+    while (temp != 0)
+    {
+        int digit = temp % 10;
+        ans += pow(digit, count);
+        temp /= 10;
+    }
+    if (ans == num)
+    {
+        cout << "armstrong number" << endl;
+    }
+    else
+        cout << " not armstrong number" << endl;
+}
+
+void pritAllDivisor(int num)
+{
+    // for (int i = 1; i <= num; i++)
+    // {
+    //     if (num % i == 0)
+    //     {
+    //         cout << i << " ";
+    //     }
+    // }
+    // cout << endl;
+    for (int i = 1; i <= sqrt(num); i++)
+    {
+        if (num % i == 0)
+        {
+            cout << i << " ";
+        }
+        if (num / i != i)
+        {
+            cout << (num / i) << " ";
+        }
+    }
+    cout << endl;
+}
+
+void isPrime(int num)
+{
+    bool flag = true;
+    // for (int i = 2; i < num; i++)
+    // {
+    //     if (num % i == 0)
+    //     {
+    //         flag = false;
+
+    //         break;
+    //     }
+    // }
+    // if (flag)
+    // {
+    //     cout << "Prime Nummber" << endl;
+    // }
+    // else
+    // cout << " Not a Prime Number" << endl;
+
+    for (int i = 2; i < sqrt(num); i++)
+    {
+        if (num % i == 0)
+        {
+            flag = false;
+            break;
+        }
+    }
+    if (flag)
+    {
+        cout << "Prime Number" << endl;
+    }
+    else
+        cout << " Not a Prime Number" << endl;
+}
 int main()
 {
-    int num = 1231;
+    int num = 56;
     // cout << coutNumber(num);
     // reverseNumber(num);
     // isPalindrome(num);
-    int num1 = 18, num2 = 12;
-    int ans = gcdOfNumber(num1, num2);
-    cout << ans << endl;
+    // int num1 = 18, num2 = 12;
+    // int ans = gcdOfNumber(num1, num2);
+    // cout << ans << endl;
+
+    // isArmstrong(num);
+    // pritAllDivisor(num);
+    isPrime(num);
     return 0;
 }
