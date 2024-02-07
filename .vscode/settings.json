@@ -3,6 +3,9 @@
     "iostream": "cpp",
     "xstring": "cpp",
     "cstddef": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "unordered_set": "cpp",
+    "map": "cpp",
+    "unordered_map": "cpp"
   }
 }
