@@ -108,6 +108,107 @@ bool isSorted(vector<int> &arr)
     }
     return true;
 }
+int removeDuplicate(vector<int> &arr)
+{
+    // brute force
+    //  set<int> st;
+    //  for (auto it : arr)
+    //  {
+    //      st.insert(it);
+    //  }
+    //  int siz = st.size();
+    //  int j = 0;
+    //  for (auto it : st)
+    //  {
+    //      arr[j] = it;
+    //      j++;
+    //  }
+    //  return siz;
+    int i = 0;
+    for (int j = 1; j < arr.size(); j++)
+    {
+        if (arr[i] != arr[j])
+        {
+            i++;
+            arr[i] = arr[j];
+        }
+    }
+    return (i + 1);
+}
+
+void leftRotateByOne(vector<int> &arr)
+{
+    // Brute
+    // vector<int> ans(arr.size());
+    // int temp = arr[0];
+    // for (int i = 1; i < arr.size(); i++)
+    // {
+    //     ans[i - 1] = arr[i];
+    // }
+    // ans[ans.size() - 1] = temp;
+    // int j = 0;
+    // for (auto it : ans)
+    // {
+    //     arr[j] = it;
+    //     j++;
+    // }
+
+    // optimal
+    int n = arr.size();
+    int tem = arr[0];
+    for (int i = 1; i < n; i++)
+    {
+        arr[i - 1] = arr[i];
+    }
+    arr[n - 1] = tem;
+}
+
+void moveZeros(vector<int> &arr)
+{
+    // brute
+    // int n = arr.size();
+    // vector<int> ans(n, 0);
+    // int j = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (arr[i] != 0)
+    //     {
+    //         ans[j] = arr[i];
+    //         j++;
+    //     }
+    // }
+    // j = 0;
+    // for (auto it : ans)
+    // {
+    //     arr[j] = it;
+    //     j++;
+    // }
+    int n = arr.size();
+    int k = 0;
+    while (k < n)
+    {
+        if (arr[k] == 0)
+        {
+            break;
+        }
+        else
+        {
+            k++;
+        }
+    }
+    int i = k;
+    int j = k + 1;
+
+    while (i < n && j < n)
+    {
+        if (arr[j] != 0)
+        {
+            swap(arr[i], arr[j]);
+            i++;
+                }
+        j++;
+    }
+}
 int main()
 {
     // vector<int> v = {12, 4, 5, 66, 77, 8, 77};
@@ -117,7 +218,16 @@ int main()
     // {
     //     cout << it << " ";
     // }
-    vector<int> v1 = {11, 2, 4, 5, 6, 7, 9};
-    cout << isSorted(v1);
+    // vector<int> v1 = {11, 2, 4, 5, 6, 7, 9};
+    // cout << isSorted(v1);
+    vector<int> arr = {1, 2, 0, 4, 0, 6};
+    // cout << removeDuplicate(arr);
+    // leftRotateByOne(arr);
+    moveZeros(arr);
+
+    for (auto it : arr)
+    {
+        cout << it << " ";
+    }
     return 0;
 }
