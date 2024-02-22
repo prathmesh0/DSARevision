@@ -205,9 +205,100 @@ void moveZeros(vector<int> &arr)
         {
             swap(arr[i], arr[j]);
             i++;
-                }
+        }
         j++;
     }
+}
+
+int linearSearch(vector<int> &arr, int key)
+{
+    int n = arr.size();
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == key)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+vector<int> unionOfTwosortedArray(vector<int> &arr1, vector<int> &arr2)
+{
+    set<int> st;
+    map<int, int> mpp;
+    vector<int> ans;
+    // brute force
+    //  for (int i = 0; i < arr1.size(); i++)
+    //  {
+    //      st.insert(arr1[i]);
+    //  }
+    //  for (int i = 0; i < arr2.size(); i++)
+    //  {
+    //      st.insert(arr2[i]);
+    //  }
+    //  for (auto it : st)
+    //  {
+    //      ans.push_back(it);
+    //  }
+
+    // brute force
+    // for (int i = 0; i < arr1.size(); i++)
+    // {
+    //     mpp[arr1[i]]++;
+    // }
+    // for (int i = 0; i < arr2.size(); i++)
+    // {
+    //     mpp[arr2[i]]++;
+    // }
+    // for (auto it : mpp)
+    // {
+    //     ans.push_back(it.first);
+    // }
+    // return ans;
+
+    // optimal approach
+    int i = 0;
+    int j = 0;
+    int n = arr1.size();
+    int m = arr2.size();
+    while (i < n && j < m)
+    {
+        if (arr1[i] <= arr2[j])
+        {
+            if (ans.size() == 0 || ans.back() != arr1[i])
+            {
+                ans.push_back(arr1[i]);
+            }
+            i++;
+        }
+        else
+        {
+            if (ans.size() == 0 || ans.back() != arr2[j])
+            {
+                ans.push_back(arr2[j]);
+            }
+            j++;
+        }
+    }
+    while (i < n)
+    {
+        if (ans.size() == 0 || ans.back() != arr1[i])
+        {
+            ans.push_back(arr1[i]);
+        }
+        i++;
+    }
+
+    while (j < m)
+    {
+        if (ans.size() == 0 || ans.back() != arr2[j])
+        {
+            ans.push_back(arr2[j]);
+        }
+        j++;
+    }
+    return ans;
 }
 int main()
 {
@@ -220,12 +311,21 @@ int main()
     // }
     // vector<int> v1 = {11, 2, 4, 5, 6, 7, 9};
     // cout << isSorted(v1);
-    vector<int> arr = {1, 2, 0, 4, 0, 6};
+    // vector<int> arr = {1, 2, 0, 4, 0, 6};
     // cout << removeDuplicate(arr);
     // leftRotateByOne(arr);
-    moveZeros(arr);
+    // moveZeros(arr);
 
-    for (auto it : arr)
+    // for (auto it : arr)
+    // {
+    //     cout << it << " ";
+    // }
+    // int key = 6;
+    // cout << linearSearch(arr, key) << endl;
+    vector<int> arr1 = {1, 2, 4, 4, 5, 6};
+    vector<int> arr2 = {2, 4, 7, 8};
+    vector<int> ans = unionOfTwosortedArray(arr1, arr2);
+    for (auto it : ans)
     {
         cout << it << " ";
     }
