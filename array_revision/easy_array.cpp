@@ -300,6 +300,60 @@ vector<int> unionOfTwosortedArray(vector<int> &arr1, vector<int> &arr2)
     }
     return ans;
 }
+int missingNumber(vector<int> arr1)
+{
+    // Brute force approach
+    //  int n = arr1.size();
+    //  sort(arr1.begin(), arr1.end());
+    //  for (int i = 0; i <= n; i++)
+    //  {
+    //      if (arr1[i] != i)
+    //      {
+    //          return i;
+    //      }
+    //  }
+    //  return -1;
+    // Better approach
+    //  int n = arr1.size();
+    //  int arr[n + 1] = {0};
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     arr[arr1[i]]++;
+    // }
+
+    // for (int i = 0; i <= n; i++)
+    // {
+    //     if (arr[i] == 0)
+    //     {
+    //         return i;
+    //     }
+    // }
+    // return -1;
+
+    // Optimal Approach
+
+    // int n = arr1.size();
+    // int sumOfn = (n * (n + 1)) / 2;
+    // int sumOfA = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     sumOfA = sumOfA + arr1[i];
+    // }
+
+    // return (sumOfn - sumOfA);
+
+    // optimal Approach
+    int xor1 = 0, xor2 = 0;
+    int n = arr1.size();
+    for (int i = 0; i < n; i++)
+    {
+        xor1 = xor1 ^ arr1[i];
+        xor2 = xor2 ^ (i);
+    }
+    xor2 = xor2 ^ (n);
+    return xor1 ^ xor2;
+}
 int main()
 {
     // vector<int> v = {12, 4, 5, 66, 77, 8, 77};
@@ -322,12 +376,14 @@ int main()
     // }
     // int key = 6;
     // cout << linearSearch(arr, key) << endl;
-    vector<int> arr1 = {1, 2, 4, 4, 5, 6};
-    vector<int> arr2 = {2, 4, 7, 8};
-    vector<int> ans = unionOfTwosortedArray(arr1, arr2);
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
+    vector<int> arr1 = {2, 0, 1};
+    // vector<int> arr2 = {2, 4, 7, 8};
+    // vector<int> ans = unionOfTwosortedArray(arr1, arr2);
+    // for (auto it : ans)
+    // {
+    //     cout << it << " ";
+    // }
+    cout << missingNumber(arr1) << endl;
+
     return 0;
 }
