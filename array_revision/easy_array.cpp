@@ -354,6 +354,49 @@ int missingNumber(vector<int> arr1)
     xor2 = xor2 ^ (n);
     return xor1 ^ xor2;
 }
+
+int findMaxConsecutiveOnes(vector<int> &nums)
+{
+    int maxi = INT_MIN;
+    int count = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (nums[i] == 1)
+        {
+            count++;
+            maxi = max(maxi, count);
+        }
+        else
+        {
+            count = 0;
+        }
+    }
+    return maxi;
+}
+int singleNumber(vector<int> &nums)
+{
+    // Brute
+    // unordered_map<int, int> mpp;
+    // for (auto it : nums)
+    // {
+    //     mpp[it]++;
+    // }
+    // for (auto i : mpp)
+    // {
+    //     if (i.second == 1)
+    //     {
+    //         return i.first;
+    //     }
+    // }
+    // return -1;
+    // Optimal
+    int xorr = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        xorr = xorr ^ nums[i];
+    }
+    return xorr;
+}
 int main()
 {
     // vector<int> v = {12, 4, 5, 66, 77, 8, 77};
@@ -376,14 +419,17 @@ int main()
     // }
     // int key = 6;
     // cout << linearSearch(arr, key) << endl;
-    vector<int> arr1 = {2, 0, 1};
+    // vector<int> arr1 = {2, 0, 1};
     // vector<int> arr2 = {2, 4, 7, 8};
     // vector<int> ans = unionOfTwosortedArray(arr1, arr2);
     // for (auto it : ans)
     // {
     //     cout << it << " ";
     // }
-    cout << missingNumber(arr1) << endl;
-
+    // cout << missingNumber(arr1) << endl;
+    // vector<int> g = {1, 1, 1, 1, 0, 1, 1, 0, 1, 1};
+    // cout << findMaxConsecutiveOnes(g) << endl;
+    vector<int> m = {1, 2, 2, 1, 4};
+    cout << singleNumber(m) << endl;
     return 0;
 }
