@@ -397,6 +397,52 @@ int singleNumber(vector<int> &nums)
     }
     return xorr;
 }
+
+int longestSubarray(vector<int> &arr, int k)
+{
+    // brute force
+    //  int n = arr.size();
+    //  int maxi = INT_MIN;
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      int sum = 0;
+    //      for (int j = i; j < n; j++)
+    //      {
+    //          sum += arr[j];
+    //          if (sum == k)
+    //          {
+    //              maxi = max(maxi, j - i + 1);
+    //          }
+    //      }
+    //  }
+    //  return maxi;
+
+    // better
+    int n = arr.size();
+    unordered_map<int, int> mpp;
+    int maxlen = INT_MIN;
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum += arr[i];
+        if (sum == k)
+        {
+            maxlen = max(maxlen, i + 1);
+        }
+        int rem = k - sum;
+
+        if (mpp.find(rem) != mpp.end())
+        {
+            int len = i - mpp[rem];
+            maxlen = max(maxlen, len);
+        }
+        if (mpp.find(sum) != mpp.end())
+        {
+            mpp[sum] = i;
+        }
+    }
+    return maxlen;
+}
 int main()
 {
     // vector<int> v = {12, 4, 5, 66, 77, 8, 77};
@@ -429,7 +475,9 @@ int main()
     // cout << missingNumber(arr1) << endl;
     // vector<int> g = {1, 1, 1, 1, 0, 1, 1, 0, 1, 1};
     // cout << findMaxConsecutiveOnes(g) << endl;
-    vector<int> m = {1, 2, 2, 1, 4};
-    cout << singleNumber(m) << endl;
+    // vector<int> m = {1, 2, 2, 1, 4};
+    // cout << singleNumber(m) << endl;
+    vector<int> array = {2, 3, 5, 1, 9};
+    cout << longestSubarray(array, 10);
     return 0;
 }

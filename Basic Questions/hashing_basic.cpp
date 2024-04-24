@@ -20,7 +20,7 @@ int main()
     //     cout << mpp[num] << endl;
     // }
 
-    // character hasing
+    // character hashing
 
     // string s;
     // cin >> s;

@@ -8,7 +8,9 @@
     "map": "cpp",
     "unordered_map": "cpp",
     "set": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "ratio": "cpp",
+    "algorithm": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
