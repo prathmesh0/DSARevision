@@ -137,6 +137,122 @@ void leftRotateByOne(vector<int> &num1)
     }
     num1[n - 1] = temp;
 }
+
+void moveZeroToEnd(vector<int> &arr)
+{
+    int n = arr.size();
+    // Brute force
+    //  vector<int> ans(n, 0);
+    //  int j = 0;
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      if (arr[i] != 0)
+    //      {
+    //          ans[j] = arr[i];
+    //          j++;
+    //      }
+    //  }
+    //  j = 0;
+    //  for (auto it : ans)
+    //  {
+    //      arr[j] = it;
+    //      j++;
+    //  }
+
+    // Optimal
+    int j = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == 0)
+        {
+            j = i;
+            break;
+        }
+    }
+
+    if (j == -1)
+    {
+        return;
+    }
+
+    for (int i = j + 1; i < n; i++)
+    {
+        if (arr[i] != 0)
+        {
+            swap(arr[i], arr[j]);
+            j++;
+        }
+    }
+}
+
+int isPresent(vector<int> &num1, int key)
+{
+    int n = num1.size();
+    for (int i = 0; i < n; i++)
+    {
+        if (num1[i] == key)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+vector<int> findUnion(vector<int> &arr1, vector<int> &arr2)
+{
+    int n = arr1.size();
+    int m = arr2.size();
+
+    // set<int> st;
+    // vector<int> ans;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     st.insert(arr1[i]);
+    // }
+
+    // for (int i = 0; i < m; i++)
+    // {
+    //     st.insert(arr2[i]);
+    // }
+
+    // for (auto it : st)
+    // {
+    //     ans.push_back(it);
+    // }
+    // return ans;
+
+    // optimal approach
+    int i = 0, j = 0;  // pointers
+    vector<int> Union; // Uninon vector
+    while (i < n && j < m)
+    {
+        if (arr1[i] <= arr2[j]) // Case 1 and 2
+        {
+            if (Union.size() == 0 || Union.back() != arr1[i])
+                Union.push_back(arr1[i]);
+            i++;
+        }
+        else // case 3
+        {
+            if (Union.size() == 0 || Union.back() != arr2[j])
+                Union.push_back(arr2[j]);
+            j++;
+        }
+    }
+    while (i < n) // IF any element left in arr1
+    {
+        if (Union.back() != arr1[i])
+            Union.push_back(arr1[i]);
+        i++;
+    }
+    while (j < m) // If any elements left in arr2
+    {
+        if (Union.back() != arr2[j])
+            Union.push_back(arr2[j]);
+        j++;
+    }
+    return Union;
+}
 int main()
 {
     vector<int> arr = {12, 44, 55, 222};
@@ -157,9 +273,19 @@ int main()
     //     cout << it << " ";
     // }
 
-    vector<int> num1 = {1, 3, 4, 5, 6};
-    leftRotateByOne(num1);
-    for (auto it : num1)
+    vector<int> num1 = {1, 0, 0, 3, 0, 4, 0, 5, 6};
+    // leftRotateByOne(num1);
+    // moveZeroToEnd(num1);
+    // for (auto it : num1)
+    // {
+    //     cout << it << " ";
+    // }
+    int key = 16;
+    // cout << isPresent(num1, key);
+    vector<int> arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<int> arr2 = {2, 3, 4, 4, 5, 11, 12};
+    vector<int> ans = findUnion(arr1, arr2);
+    for (auto it : ans)
     {
         cout << it << " ";
     }
