@@ -253,6 +253,90 @@ vector<int> findUnion(vector<int> &arr1, vector<int> &arr2)
     }
     return Union;
 }
+
+int missingNumber(vector<int> &arr)
+{
+    int n = arr.size();
+
+    // Brute- force
+
+    // for (int i = 0; i <= n; i++)
+    // {
+    //     int flag = 0;
+    //     for (int j = 0; j < n; j++)
+    //     {
+    //         if (arr[j] == i)
+    //         {
+    //             flag = 1;
+    //             break;
+    //         }
+    //     }
+    //     if (flag == 0)
+    //     {
+    //         return i;
+    //     }
+    // }
+    // return -1;
+
+    // better approach
+    // vector<int> hash(n + 1, 0);
+    // for (int i = 0; i < n; i++)
+    // {
+    //     hash[arr[i]]++;
+    // }
+
+    // for (int i = 0; i <= n; i++)
+    // {
+    //     if (hash[i] == 0)
+    //     {
+    //         return i;
+    //     }
+    // }
+    // return -1;
+
+    // Optimal Approach
+    // int sum_n = n * (n + 1) / 2;
+    // int sum_arr = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     sum_arr += arr[i];
+    // }
+    // return sum_n - sum_arr;
+
+    // most optimal
+    int xor1 = 0;
+    int xor2 = 0;
+    for (auto it : arr)
+    {
+        xor1 = xor1 ^ it;
+    }
+
+    for (int i = 0; i <= n; i++)
+    {
+        xor2 = xor2 ^ i;
+    }
+    return (xor1 ^ xor2);
+}
+int maximumConsecutiveOne(vector<int> &num)
+{
+    int n = num.size();
+    int maxi_one = 0;
+    int count = 0;
+    for (int i = 0; i < n; i++)
+    {
+
+        if (num[i] == 1)
+        {
+            count++;
+        }
+        else
+        {
+            maxi_one = max(maxi_one, count);
+            count = 0;
+        }
+    }
+    return maxi_one;
+}
 int main()
 {
     vector<int> arr = {12, 44, 55, 222};
@@ -282,13 +366,17 @@ int main()
     // }
     int key = 16;
     // cout << isPresent(num1, key);
-    vector<int> arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    vector<int> arr2 = {2, 3, 4, 4, 5, 11, 12};
-    vector<int> ans = findUnion(arr1, arr2);
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
+    // vector<int> arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    // vector<int> arr2 = {2, 3, 4, 4, 5, 11, 12};
+    // vector<int> ans = findUnion(arr1, arr2);
+    // for (auto it : ans)
+    // {
+    //     cout << it << " ";
+    // }
+    // vector<int> num2 = {0, 3, 1};
+    // cout << missingNumber(num2);
+    vector<int> num3 = {0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0};
+    cout << maximumConsecutiveOne(num3);
 
     return 0;
 }
