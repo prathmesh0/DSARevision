@@ -337,6 +337,120 @@ int maximumConsecutiveOne(vector<int> &num)
     }
     return maxi_one;
 }
+
+int getSingleElement(vector<int> &arr)
+{
+    // brute force
+    int n = arr.size();
+    // for (int i = 0; i < n; i++)
+    // {
+    //     int count = 1;
+    //     for (int j = i + 1; j < n; j++)
+    //     {
+    //         if (arr[i] == arr[j])
+    //         {
+    //             count++;
+    //         }
+    //     }
+    //     if (count == 1)
+    //     {
+    //         return arr[i];
+    //     }
+    // }
+    // return -1;
+
+    // better approach
+    // int maxi = INT_MIN;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     maxi = max(maxi, arr[i]);
+    // }
+
+    // vector<int> mpp(maxi + 1, 0);
+
+    // for (auto it : arr)
+    // {
+    //     mpp[it]++;
+    // }
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (mpp[i] == 1)
+    //     {
+    //         return i;
+    //     }
+    // }
+    // return -1;
+
+    // better approach
+    // unordered_map<int, int> mpp;
+    // for (auto it : arr)
+    // {
+    //     mpp[it]++;
+    // }
+    // for (auto it : mpp)
+    // {
+    //     if (it.second == 1)
+    //     {
+    //         return it.first;
+    //     }
+    // }
+    // return -1;
+
+    // optimal approach
+    int xorr = 0;
+    for (int i = 0; i < n; i++)
+    {
+        xorr = xorr ^ arr[i];
+    }
+    return xorr;
+}
+
+int longestSubarraywithSumK(vector<int> arr, int k)
+{
+    // Brute force
+    int n = arr.size();
+    // int maxi = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     long long sum = 0;
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         sum += arr[j];
+
+    //         if (sum == k)
+    //         {
+    //             maxi = max(maxi, j - i + 1);
+    //         }
+    //     }
+    // }
+    // return maxi;
+
+    unordered_map<int, int> mpp;
+    int maxiLen = 0;
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum += arr[i];
+        if (sum == k)
+        {
+            maxiLen = max(maxiLen, i + 1);
+        }
+        else
+        {
+            int rem_sum = sum - k;
+            if (mpp.size() > 0 && mpp.find(rem_sum) != mpp.end())
+            {
+                maxiLen = max(maxiLen, i - mpp[rem_sum]);
+            }
+        }
+
+        if (mpp.find(sum) == mpp.end())
+            mpp[sum] = i;
+    }
+    return maxiLen;
+}
+
 int main()
 {
     vector<int> arr = {12, 44, 55, 222};
@@ -375,8 +489,12 @@ int main()
     // }
     // vector<int> num2 = {0, 3, 1};
     // cout << missingNumber(num2);
-    vector<int> num3 = {0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0};
-    cout << maximumConsecutiveOne(num3);
+    // vector<int> num3 = {0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0};
+    // cout << maximumConsecutiveOne(num3);
 
+    vector<int> v = {4, 1, 1, 3, 3, 2, 2};
+    vector<int> v1 = {2, 3, 5, 1, 9};
+    // cout << getSingleElement(v);
+    cout << longestSubarraywithSumK(v1, 10);
     return 0;
 }
