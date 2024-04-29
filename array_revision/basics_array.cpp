@@ -508,6 +508,135 @@ int getLongestSubarray(vector<int> &a, int k)
 
     return maxLen;
 }
+
+vector<int> twoSum(vector<int> &arr, int target)
+{
+    // Brute Force
+    int n = arr.size();
+    // vector<int> ans;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     for (int j = i + 1; j < n; j++)
+    //     {
+    //         if (arr[i] + arr[j] == target)
+    //         {
+    //             ans.push_back(i);
+    //             ans.push_back(j);
+    //             return ans;
+    //         }
+    //     }
+    // }
+    // return {-1, -1};
+
+    // Better Approach
+    unordered_map<int, int> mpp;
+    for (int i = 0; i < n; i++)
+    {
+        int num = arr[i];
+        int moreNeeded = target - num;
+
+        if (mpp.find(moreNeeded) != mpp.end())
+        {
+            return {mpp[moreNeeded], i};
+        }
+        mpp[num] = i;
+    }
+    return {-1, -1};
+
+    // Better Approach->this approach will bw work when we need to check whether the element give sum equal to target
+    // sort(arr.begin(), arr.end());
+    // int s = 0, e = n - 1;
+    // while (s <= e)
+    // {
+    //     if (arr[s] + arr[e] == target)
+    //     {
+    //         return true;
+    //     }
+    //     else if (arr[s] + arr[e] > target)
+    //     {
+    //         e--;
+    //     }
+    //     else
+    //     {
+    //         s++;
+    //     }
+    // }
+    // return false;
+}
+
+void sortArray(vector<int> &arr)
+{
+    int n = arr.size();
+    // Extreme Brute force
+    // sort(arr.begin(), arr.end());
+
+    // Better Appraoch
+    // int count_zero = 0, count_one = 0, count_two = 0;
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (arr[i] == 0)
+    //     {
+    //         count_zero++;
+    //     }
+    //     else if (arr[i] == 1)
+    //     {
+    //         count_one++;
+    //     }
+    //     else
+    //     {
+    //         count_two++;
+    //     }
+    // }
+
+    // int i = 0;
+
+    // // Fill the array with 0s
+    // while (count_zero > 0)
+    // {
+    //     arr[i] = 0;
+    //     i++;
+    //     count_zero--;
+    // }
+
+    // // Fill the array with 1s
+    // while (count_one > 0)
+    // {
+    //     arr[i] = 1;
+    //     i++;
+    //     count_one--;
+    // }
+
+    // // Fill the array with 2s
+    // while (count_two > 0)
+    // {
+    //     arr[i] = 2;
+    //     i++;
+    //     count_two--;
+    // }
+
+    // Optimal Approach
+    int low = 0, high = n - 1, mid = 0;
+    while (mid <= high)
+    {
+        if (arr[mid] == 0)
+        {
+            swap(arr[low], arr[mid]);
+            low++;
+            mid++;
+        }
+        else if (arr[mid] == 1)
+        {
+            mid++;
+        }
+        else
+        {
+            swap(arr[mid], arr[high]);
+            high--;
+        }
+    }
+}
+
 int main()
 {
     vector<int> arr = {12, 44, 55, 222};
@@ -554,9 +683,23 @@ int main()
     // // cout << getSingleElement(v);
     // cout << longestSubarraywithSumK(v1, 10);
 
-    vector<int> a = {-1, 1, 1};
-    int k = 1;
-    int len = getLongestSubarray(a, k);
-    cout << "The length of the longest subarray is: " << len << "\n";
+    // vector<int> a = {-1, 1, 1};
+    // int k = 1;
+    // int len = getLongestSubarray(a, k);
+    // cout << "The length of the longest subarray is: " << len << "\n";
+
+    // vector<int> arr1 = {2, 6, 5, 8, 11};
+    // int target = 14;
+    // vector<int> ans = twoSum(arr1, target);
+    // cout << "This is the answer for variant 2: [" << ans[0] << ", "
+    //      << ans[1] << "]" << endl;
+
+    vector<int> arr2 = {0, 2, 1, 2, 0, 1};
+    sortArray(arr2);
+    cout << "After sorting:" << endl;
+    for (int i = 0; i < arr2.size(); i++)
+    {
+        cout << arr2[i] << " ";
+    }
     return 0;
 }
