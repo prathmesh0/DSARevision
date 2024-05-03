@@ -277,6 +277,45 @@ vector<int> printLeadersBruteForce(vector<int> arr)
     }
     return ans;
 }
+
+int findAllSubarraysWithGivenSum(vector<int> &arr, int k)
+{
+    // int n = arr.size();
+    // int count = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+
+    //     int sum = 0;
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         sum += arr[j];
+    //         if (sum == k)
+    //         {
+    //             count++;
+    //         }
+    //     }
+    // }
+    // return count;
+
+    // Optimal Approach
+    int n = arr.size();
+    map<int, int> mpp;
+    int preSum = 0, cnt = 0;
+
+    mpp[0] = 1;
+    for (int i = 0; i < n; i++)
+    {
+
+        preSum += arr[i];
+
+        int remove = preSum - k;
+
+        cnt += mpp[remove];
+
+        mpp[preSum] += 1;
+    }
+    return cnt;
+}
 int main()
 {
     // vector<int> arr1 = {2, 6, 5, 8, 11};
@@ -300,15 +339,20 @@ int main()
     // int maxPro = maxProfit(arr3);
     // cout << "Max profit is: " << maxPro << endl;
 
-    vector<int> arr4 = {10, 22, 12, 3, 0, 6};
+    // vector<int> arr4 = {10, 22, 12, 3, 0, 6};
 
-    vector<int> ans = printLeadersBruteForce(arr4);
+    // vector<int> ans = printLeadersBruteForce(arr4);
 
-    for (int i = 0; i < ans.size(); i++)
-    {
+    // for (int i = 0; i < ans.size(); i++)
+    // {
 
-        cout << ans[i] << " ";
-    }
+    //     cout << ans[i] << " ";
+    // }
+
+    vector<int> arr5 = {3, 1, 2, 4};
+    int k = 6;
+    int cnt = findAllSubarraysWithGivenSum(arr5, k);
+    cout << "The number of subarrays is: " << cnt << "\n";
 
     return 0;
 }
