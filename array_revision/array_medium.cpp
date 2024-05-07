@@ -316,6 +316,53 @@ int findAllSubarraysWithGivenSum(vector<int> &arr, int k)
     }
     return cnt;
 }
+
+vector<int> spiralOrder(vector<vector<int>> &matrix)
+{
+    int n = matrix.size();
+    int m = matrix[0].size();
+    vector<int> ans;
+    int left = 0, right = m - 1, bottom = n - 1, top = 0;
+
+    while (top <= bottom && left <= right)
+    {
+        // left->right
+        for (int i = left; i <= right; i++)
+        {
+            ans.push_back(matrix[top][i]);
+        }
+        top++;
+        // top->bottom
+        for (int i = top; i <= bottom; i++)
+        {
+            ans.push_back(matrix[i][right]);
+        }
+        right--;
+
+        if (top <= bottom)
+        {
+            // right->left
+            for (int i = right; i >= left; i--)
+            {
+                ans.push_back(matrix[bottom][i]);
+            }
+            bottom--;
+        }
+
+        if (left <= right)
+        {
+            // bottom->top
+            for (int i = bottom; i >= top; i--)
+            {
+                ans.push_back(matrix[i][left]);
+            }
+            left++;
+        }
+    }
+
+    return ans;
+}
+
 int main()
 {
     // vector<int> arr1 = {2, 6, 5, 8, 11};
@@ -349,10 +396,24 @@ int main()
     //     cout << ans[i] << " ";
     // }
 
-    vector<int> arr5 = {3, 1, 2, 4};
-    int k = 6;
-    int cnt = findAllSubarraysWithGivenSum(arr5, k);
-    cout << "The number of subarrays is: " << cnt << "\n";
+    // vector<int> arr5 = {3, 1, 2, 4};
+    // int k = 6;
+    // int cnt = findAllSubarraysWithGivenSum(arr5, k);
+    // cout << "The number of subarrays is: " << cnt << "\n";
+    vector<vector<int>> mat{{1, 2, 3, 4},
+                            {5, 6, 7, 8},
+                            {9, 10, 11, 12},
+                            {13, 14, 15, 16}};
+
+    vector<int> ans = spiralOrder(mat);
+
+    for (int i = 0; i < ans.size(); i++)
+    {
+
+        cout << ans[i] << " ";
+    }
+
+    cout << endl;
 
     return 0;
 }
