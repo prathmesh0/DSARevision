@@ -362,7 +362,240 @@ vector<int> spiralOrder(vector<vector<int>> &matrix)
 
     return ans;
 }
+vector<int> RearrangebySign(vector<int> &arr)
+{
 
+    // variation 1- Brute force
+    int n = arr.size();
+    // vector<int> pos;
+    // vector<int> neg;
+
+    // for (auto it : arr)
+    // {
+    //     if (it < 0)
+    //     {
+    //         neg.push_back(it);
+    //     }
+    //     else
+    //     {
+    //         pos.push_back(it);
+    //     }
+    // }
+    // for (int i = 0; i < n / 2; i++)
+    // {
+    //     arr[i * 2] = pos[i];
+    //     arr[i * 2 + 1] = neg[i];
+    // }
+    // return arr;
+
+    // optimal approch
+    // vector<int> ans(n, 0);
+    // int posInd = 0, negInd = 1;
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (arr[i] < 0)
+    //     {
+    //         ans[negInd] = arr[i];
+    //         negInd += 2;
+    //     }
+
+    //     else
+    //     {
+    //         ans[posInd] = arr[i];
+    //         posInd += 2;
+    //     }
+    // }
+    // return ans;
+
+    // variety 2 -> Optimal
+    vector<int> pos;
+    vector<int> neg;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] < 0)
+        {
+            neg.push_back(arr[i]);
+        }
+        else
+        {
+            pos.push_back(arr[i]);
+        }
+    }
+
+    // If positives are lesser than the negatives.
+    if (pos.size() < neg.size())
+    {
+        for (int i = 0; i < pos.size(); i++)
+        {
+            arr[i * 2] = pos[i];
+            arr[i * 2 + 1] = neg[i];
+        }
+        int index = pos.size() * 2;
+        for (int i = pos.size(); i < neg.size(); i++)
+        {
+            arr[index] = neg[i];
+            index++;
+        }
+    }
+
+    else
+    {
+        for (int i = 0; i < neg.size(); i++)
+        {
+            arr[i * 2] = pos[i];
+            arr[i * 2 + 1] = neg[i];
+        }
+        int index = neg.size() * 2;
+        for (int i = neg.size(); i < pos.size(); i++)
+        {
+            arr[index] = pos[i];
+            index++;
+        }
+    }
+    return arr;
+}
+
+bool linearSearch(vector<int> &arr, int x)
+{
+    int n = arr.size();
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == x)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+int longestSuccessiveElements(vector<int> &arr)
+{
+    // Brute force approach
+    int n = arr.size();
+    // int longest_count = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+
+    //     int x = arr[i];
+    //     int count = 1;
+
+    //     while (linearSearch(arr, x + 1) == true)
+    //     {
+    //         x = x + 1;
+    //         count++;
+    //     }
+    //     longest_count = max(longest_count, count);
+    // }
+    // return longest_count;
+
+    // Better Approach
+    sort(arr.begin(), arr.end());
+    int longest = 1;
+    int count = 0;
+    int last_smaller = INT_MIN;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] - 1 == last_smaller)
+        {
+            count++;
+            last_smaller = arr[i];
+        }
+
+        else if (arr[i] - 1 != last_smaller)
+        {
+            count = 1;
+            last_smaller = arr[i];
+        }
+        longest = max(longest, count);
+    }
+    return longest;
+}
+
+int maxSubarraySum1(vector<int> &arr)
+{
+    // Brute force
+    int n = arr.size();
+
+    // int maxi_sum = INT_MIN;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         int sum = 0;
+    //         for (int k = i; k <= j; k++)
+    //         {
+    //             sum += arr[k];
+    //         }
+    //         maxi_sum = max(maxi_sum, sum);
+    //     }
+    // }
+    // return maxi_sum;
+
+    // better approach
+
+    // for (int i = 0; i < n; i++)
+    // {
+
+    //     int sum = 0;
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         sum += arr[j];
+    //         maxi_sum = max(maxi_sum, sum);
+    //     }
+    // }
+    // return maxi_sum;
+
+    // Optimal Approach
+    // long long maxi_sum = LONG_MIN;
+    // long long sum = 0;
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     sum += arr[i];
+    //     if (sum > maxi_sum)
+    //     {
+    //         maxi_sum = sum;
+    //     }
+    //     if (sum < 0)
+    //     {
+    //         sum = 0;
+    //     }
+    // }
+    // return maxi_sum;
+
+    // follow up question
+    long long maxi_sum = LONG_MIN;
+    long long sum = 0;
+    int start = 0;
+    int startInd = -1, endInd = -1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (sum == 0)
+        {
+            start = i;
+        }
+        sum += arr[i];
+        if (sum > maxi_sum)
+        {
+            maxi_sum = sum;
+            startInd = start;
+            endInd = i;
+        }
+        if (sum < 0)
+        {
+            sum = 0;
+        }
+    }
+
+    for (int i = startInd; i <= endInd; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    return maxi_sum;
+}
 int main()
 {
     // vector<int> arr1 = {2, 6, 5, 8, 11};
@@ -400,20 +633,39 @@ int main()
     // int k = 6;
     // int cnt = findAllSubarraysWithGivenSum(arr5, k);
     // cout << "The number of subarrays is: " << cnt << "\n";
-    vector<vector<int>> mat{{1, 2, 3, 4},
-                            {5, 6, 7, 8},
-                            {9, 10, 11, 12},
-                            {13, 14, 15, 16}};
 
-    vector<int> ans = spiralOrder(mat);
+    // vector<int> A{1, 2, -4, -5, 99, 9};
 
-    for (int i = 0; i < ans.size(); i++)
-    {
+    // vector<int> ans = RearrangebySign(A);
 
-        cout << ans[i] << " ";
-    }
+    // for (int i = 0; i < ans.size(); i++)
+    // {
+    //     cout << ans[i] << " ";
+    // }
 
-    cout << endl;
+    // vector<int> a = {100, 200, 1, 2, 3, 4};
+    // int ans = longestSuccessiveElements(a);
+    // cout << "The longest consecutive sequence is " << ans << "\n";
+
+    // vector<vector<int>> mat{{1, 2, 3, 4},
+    //                         {5, 6, 7, 8},
+    //                         {9, 10, 11, 12},
+    //                         {13, 14, 15, 16}};
+
+    // vector<int> ans = spiralOrder(mat);
+
+    // for (int i = 0; i < ans.size(); i++)
+    // {
+
+    //     cout << ans[i] << " ";
+    // }
+
+    // cout << endl;
+
+    vector<int> arr6 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+
+    int maxSum = maxSubarraySum1(arr);
+    cout << "The maximum subarray sum is: " << maxSum << endl;
 
     return 0;
 }
