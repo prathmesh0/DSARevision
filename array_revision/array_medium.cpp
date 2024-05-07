@@ -596,6 +596,49 @@ int maxSubarraySum1(vector<int> &arr)
     cout << endl;
     return maxi_sum;
 }
+
+vector<int> nextGreaterPermutation(vector<int> &A)
+{
+    int n = A.size(); // size of the array.
+
+    // Step 1: Find the break point:
+    int ind = -1; // break point
+    for (int i = n - 2; i >= 0; i--)
+    {
+        if (A[i] < A[i + 1])
+        {
+            // index i is the break point
+            ind = i;
+            break;
+        }
+    }
+
+    // If break point does not exist:
+    if (ind == -1)
+    {
+        // reverse the whole array:
+        reverse(A.begin(), A.end());
+        return A;
+    }
+
+    // Step 2: Find the next greater element
+    //         and swap it with arr[ind]:
+
+    for (int i = n - 1; i > ind; i--)
+    {
+        if (A[i] > A[ind])
+        {
+            swap(A[i], A[ind]);
+            break;
+        }
+    }
+
+    // Step 3: reverse the right half:
+    reverse(A.begin() + ind + 1, A.end());
+
+    return A;
+}
+
 int main()
 {
     // vector<int> arr1 = {2, 6, 5, 8, 11};
@@ -662,10 +705,24 @@ int main()
 
     // cout << endl;
 
-    vector<int> arr6 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+    // vector<int> arr6 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
 
-    int maxSum = maxSubarraySum1(arr);
-    cout << "The maximum subarray sum is: " << maxSum << endl;
+    // int maxSum = maxSubarraySum1(arr6);
+    // cout << "The maximum subarray sum is: " << maxSum << endl;
+
+    vector<int> arr7 = {2, 1, 5, 4, 3, 0, 0};
+
+    // next_permutation(arr7.begin(), arr7.end()); // using in-built function of C++
+    // cout << arr7[0] << " " << arr7[1] << " " << arr7[2];
+
+    vector<int> ans = nextGreaterPermutation(arr7);
+
+    cout << "The next permutation is: [";
+    for (auto it : ans)
+    {
+        cout << it << " ";
+    }
+    cout << "]\n";
 
     return 0;
 }
