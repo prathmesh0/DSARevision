@@ -490,24 +490,49 @@ int longestSuccessiveElements(vector<int> &arr)
     // return longest_count;
 
     // Better Approach
-    sort(arr.begin(), arr.end());
-    int longest = 1;
-    int count = 0;
-    int last_smaller = INT_MIN;
-    for (int i = 0; i < n; i++)
-    {
-        if (arr[i] - 1 == last_smaller)
-        {
-            count++;
-            last_smaller = arr[i];
-        }
+    // sort(arr.begin(), arr.end());
+    // int longest = 1;
+    // int count = 0;
+    // int last_smaller = INT_MIN;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (arr[i] - 1 == last_smaller)
+    //     {
+    //         count++;
+    //         last_smaller = arr[i];
+    //     }
 
-        else if (arr[i] - 1 != last_smaller)
+    //     else if (arr[i] - 1 != last_smaller)
+    //     {
+    //         count = 1;
+    //         last_smaller = arr[i];
+    //     }
+    //     longest = max(longest, count);
+    // }
+    // return longest;
+
+    unordered_set<int> st;
+    int longest = 1;
+    if (n == 0)
+        return 0;
+    for (auto it : arr)
+    {
+        st.insert(it);
+    }
+
+    for (auto it : st)
+    {
+        if (st.find(it-1) == st.end())
         {
-            count = 1;
-            last_smaller = arr[i];
+            int count = 1;
+            int x = it;
+            while (st.find(x + 1) != st.end())
+            {
+                count += 1;
+                x = x + 1;
+            }
+            longest = max(longest, count);
         }
-        longest = max(longest, count);
     }
     return longest;
 }
@@ -686,9 +711,9 @@ int main()
     //     cout << ans[i] << " ";
     // }
 
-    // vector<int> a = {100, 200, 1, 2, 3, 4};
-    // int ans = longestSuccessiveElements(a);
-    // cout << "The longest consecutive sequence is " << ans << "\n";
+    vector<int> a = {100, 200, 1, 2, 3, 4};
+    int ans = longestSuccessiveElements(a);
+    cout << "The longest consecutive sequence is " << ans << "\n";
 
     // vector<vector<int>> mat{{1, 2, 3, 4},
     //                         {5, 6, 7, 8},
@@ -715,14 +740,14 @@ int main()
     // next_permutation(arr7.begin(), arr7.end()); // using in-built function of C++
     // cout << arr7[0] << " " << arr7[1] << " " << arr7[2];
 
-    vector<int> ans = nextGreaterPermutation(arr7);
+    // vector<int> ans = nextGreaterPermutation(arr7);
 
-    cout << "The next permutation is: [";
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
-    cout << "]\n";
+    // cout << "The next permutation is: [";
+    // for (auto it : ans)
+    // {
+    //     cout << it << " ";
+    // }
+    // cout << "]\n";
 
     return 0;
 }
