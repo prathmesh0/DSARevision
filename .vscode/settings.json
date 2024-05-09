@@ -10,7 +10,8 @@
     "set": "cpp",
     "vector": "cpp",
     "ratio": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
