@@ -338,6 +338,108 @@ vector<vector<int>> fourSum(vector<int> &nums, int target)
     return ans;
 }
 
+int subarraysWithXorK(vector<int> &arr, int k)
+{
+    // Brute force
+    // int n = arr.size();
+    // int count = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         int xorr = 0;
+    //         for (int k = i; k <= j; k++)
+    //         {
+    //             xorr = xorr ^ arr[k];
+    //             if (xorr == k)
+    //             {
+    //                 count++;
+    //             }
+    //         }
+    //     }
+    // }
+    // return count;
+
+    // better approach
+    //
+
+    // Optimal Approach
+    int n = arr.size();
+    unordered_map<int, int> mpp;
+    int count = 0;
+    int xorr = 0;
+    mpp[xorr]++;
+
+    for (int i = 0; i < n; i++)
+    {
+        // xor till i
+        xorr ^= arr[i];
+        // formula
+        int x = xorr ^ k;
+        if (mpp.find(x) != mpp.end())
+        {
+            count += mpp[x];
+        }
+
+        // update the value and its frequecy in the map
+        mpp[xorr]++;
+    }
+    return count;
+}
+
+vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr)
+{
+    // Brute force appraoch
+
+    // int n = arr.size();
+    // vector<vector<int>> ans;
+    // sort(arr.begin(), arr.end());
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     int start = arr[i][0];
+    //     int end = arr[i][1];
+
+    //     // check to skip the already overlapping interval
+    //     if (!ans.empty() && end <= ans.back()[1])
+    //     {
+    //         continue;
+    //     }
+
+    //     for (int j = i + 1; j < n; j++)
+    //     {
+    //         if (arr[j][0] <= end)
+    //         {
+    //             end = max(end, arr[j][1]);
+    //         }
+    //         else
+    //         {
+    //             break;
+    //         }
+    //     }
+    //     ans.push_back({start, end});
+    // }
+    // return ans;
+
+    // Optimal approach
+    int n = arr.size();
+    vector<vector<int>> ans;
+    sort(arr.begin(), arr.end());
+    for (int i = 0; i < n; i++)
+    {
+        // creating new intervals
+        if (ans.empty() || arr[i][0] > ans.back()[1])
+        {
+            ans.push_back(arr[i]);
+        }
+        // merge overlapping intervals
+        else
+        {
+            ans.back()[1] = max(ans.back()[1], arr[i][1]);
+        }
+    }
+    return ans;
+}
 int main()
 {
     // {
@@ -369,19 +471,35 @@ int main()
     // vector<int> a = {9, -3, 3, -1, 6, -5};
     // cout << solve(a) << endl;
 
-    vector<int> nums = {4, 3, 3, 4, 4, 2, 1, 2, 1, 1};
-    int target = 9;
-    vector<vector<int>> ans = fourSum(nums, target);
-    cout << "The quadruplets are: \n";
+    // vector<int> nums = {4, 3, 3, 4, 4, 2, 1, 2, 1, 1};
+    // int target = 9;
+    // vector<vector<int>> ans = fourSum(nums, target);
+    // cout << "The quadruplets are: \n";
+    // for (auto it : ans)
+    // {
+    //     cout << "[";
+    //     for (auto ele : it)
+    //     {
+    //         cout << ele << " ";
+    //     }
+    //     cout << "] ";
+    // }
+    // cout << "\n";
+
+    // vector<int> a1 = {4, 2, 2, 6, 4};
+    // int k = 6;
+    // int ans = subarraysWithXorK(a1, k);
+    // cout << "The number of subarrays with XOR k is: "
+    //      << ans << "\n";
+
+    vector<vector<int>> arr1 = {{1, 3}, {8, 10}, {2, 6}, {15, 18}};
+    vector<vector<int>> ans = mergeOverlappingIntervals(arr1);
+    cout << "The merged intervals are: " << "\n";
     for (auto it : ans)
     {
-        cout << "[";
-        for (auto ele : it)
-        {
-            cout << ele << " ";
-        }
-        cout << "] ";
+        cout << "[" << it[0] << ", " << it[1] << "] ";
     }
-    cout << "\n";
+    cout << endl;
+
     return 0;
 }
