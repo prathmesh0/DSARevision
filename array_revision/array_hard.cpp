@@ -440,6 +440,129 @@ vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr)
     }
     return ans;
 }
+
+void merge(long long arr1[], long long arr2[], int n, int m)
+{
+    // Brute force Approch
+
+    // long long ans[m + n];
+    // int left = 0, right = 0;
+    // int index = 0;
+
+    // while (left < n && right < m)
+    // {
+    //     if (arr1[left] <= arr2[right])
+    //     {
+    //         ans[index] = arr1[left];
+    //         index++;
+    //         left++;
+    //     }
+    //     else
+    //     {
+    //         ans[index] = arr2[right];
+    //         index++;
+    //         right++;
+    //     }
+    // }
+
+    // while (left < n)
+    // {
+    //     ans[index] = arr1[left];
+    //     left++;
+    //     index++;
+    // }
+    // while (right < m)
+    // {
+    //     ans[index] = arr2[right];
+    //     index++;
+    //     right++;
+    // }
+
+    // for (int i = 0; i < n + m; i++)
+    // {
+    //     if (i < n)
+    //     {
+    //         arr1[i] = ans[i];
+    //     }
+    //     else
+    //     {
+    //         arr2[i-n] = ans[i];
+    //     }
+    // }
+
+    // Optimal Approach-1
+    int left = n - 1;
+    int right = 0;
+
+    while (left >= 0 && right < m)
+    {
+        if (arr2[right] < arr1[left])
+        {
+            swap(arr2[right], arr1[left]);
+            left--;
+            right++;
+        }
+        else
+        {
+            break;
+        }
+    }
+    sort(arr1, arr1 + n);
+    sort(arr2, arr2 + m);
+}
+
+int maxProductSubArray(vector<int> &arr)
+{
+    // Brute force approach
+    //  int n = arr.size();
+    //  int max_prod = INT_MIN;
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      for (int j = i + 1; j < n; j++)
+    //      {
+    //          int prod = 1;
+
+    //         for (int k = i; k <= j; k++)
+    //         {
+    //             prod = prod * arr[k];
+    //             max_prod = max(max_prod, prod);
+    //         }
+    //     }
+    // }
+    // return max_prod;
+
+    // Better Approach
+    // int n = arr.size();
+    // int max_prod = INT_MIN;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     int prod = 1;
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         prod = prod * arr[j];
+    //         max_prod = max(max_prod, prod);
+    //     }
+    // }
+    // return max_prod;
+
+    // Optimal Approach
+    int n = arr.size();
+    int maxi_prod = INT_MIN;
+    int pref = 1, suff = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (pref == 0)
+            pref = 1;
+        if (suff == 0)
+            suff = 1;
+
+        pref = pref * arr[i];
+        suff = suff * arr[n - i - 1];
+        maxi_prod = max(maxi_prod, max(pref, suff));
+    }
+    return maxi_prod;
+}
 int main()
 {
     // {
@@ -492,14 +615,34 @@ int main()
     // cout << "The number of subarrays with XOR k is: "
     //      << ans << "\n";
 
-    vector<vector<int>> arr1 = {{1, 3}, {8, 10}, {2, 6}, {15, 18}};
-    vector<vector<int>> ans = mergeOverlappingIntervals(arr1);
-    cout << "The merged intervals are: " << "\n";
-    for (auto it : ans)
-    {
-        cout << "[" << it[0] << ", " << it[1] << "] ";
-    }
-    cout << endl;
+    // vector<vector<int>> arr1 = {{1, 3}, {8, 10}, {2, 6}, {15, 18}};
+    // vector<vector<int>> ans = mergeOverlappingIntervals(arr1);
+    // cout << "The merged intervals are: " << "\n";
+    // for (auto it : ans)
+    // {
+    //     cout << "[" << it[0] << ", " << it[1] << "] ";
+    // }
+    // cout << endl;
+
+    // long long arr1[] = {1, 4, 8, 10};
+    // long long arr2[] = {2, 3, 9};
+    // int n = 4, m = 3;
+    // merge(arr1, arr2, n, m);
+    // cout << "The merged arrays are: " << "\n";
+    // cout << "arr1[] = ";
+    // for (int i = 0; i < n; i++)
+    // {
+    //     cout << arr1[i] << " ";
+    // }
+    // cout << "\narr2[] = ";
+    // for (int i = 0; i < m; i++)
+    // {
+    //     cout << arr2[i] << " ";
+    // }
+    // cout << endl;
+
+    vector<int> nums = {1, 2, -3, 0, -4, -5};
+    cout << "The maximum product subarray: " << maxProductSubArray(nums);
 
     return 0;
 }
