@@ -563,6 +563,84 @@ int maxProductSubArray(vector<int> &arr)
     }
     return maxi_prod;
 }
+
+int nCr(int n, int r)
+{
+    long long res = 1;
+    for (int i = 0; i < r; i++)
+    {
+        res = res * (n - i);
+        res = res / (i + 1);
+    }
+    return res;
+}
+
+int pascalTriangle(int r, int c)
+{
+    int ans = nCr(r - 1, c - 1);
+    return ans;
+}
+
+void pascalTriangle(int n)
+{
+    // printing the entire row n:
+    // Brute force
+    // for (int c = 1; c <= n; c++)
+    // {
+    //     cout << nCr(n - 1, c - 1) << " ";
+    // }
+
+    // Optimal Approach
+    long long ans = 1;
+    cout << ans << " ";
+
+    for (int i = 1; i < n; i++)
+    {
+        ans = ans * (n - i);
+        ans = ans / (i);
+        cout << ans << " ";
+    }
+}
+
+vector<int> generateRow(int n)
+{
+    vector<int> temp;
+    long long ans = 1;
+    temp.push_back(ans);
+    for (int i = 1; i < n; i++)
+    {
+        ans = ans * (n - i);
+        ans = ans / (i);
+        temp.push_back(ans);
+    }
+    return temp;
+}
+vector<vector<int>> AllpascalTriangle(int n)
+{
+    // Brute force approach
+    // vector<vector<int>> ans;
+
+    // for (int row = 1; row <= n; row++)
+    // {
+    //     vector<int> temp;
+    //     for (int col = 1; col <= n; col++)
+    //     {
+    //         temp.push_back(nCr(row - 1, col - 1));
+    //     }
+    //     ans.push_back(temp);
+    // }
+    // return ans;
+
+    // Optimal Approach
+    vector<vector<int>> ans;
+
+    // store the entire pascal's triangle:
+    for (int row = 1; row <= n; row++)
+    {
+        ans.push_back(generateRow(row));
+    }
+    return ans;
+}
 int main()
 {
     // {
@@ -641,8 +719,27 @@ int main()
     // }
     // cout << endl;
 
-    vector<int> nums = {1, 2, -3, 0, -4, -5};
-    cout << "The maximum product subarray: " << maxProductSubArray(nums);
+    // vector<int> nums = {1, 2, -3, 0, -4, -5};
+    // cout << "The maximum product subarray: " << maxProductSubArray(nums);
+
+    // int r = 5; // row number
+    // int c = 3; // col number
+    // int element = pascalTriangle(r, c);
+    // cout << "The element at position (r,c) is: "
+    //      << element;
+    // int n = 5;
+    // pascalTriangle(n);
+
+    int n = 5;
+    vector<vector<int>> ans = AllpascalTriangle(n);
+    for (auto it : ans)
+    {
+        for (auto ele : it)
+        {
+            cout << ele << " ";
+        }
+        cout << "\n";
+    }
 
     return 0;
 }
