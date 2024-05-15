@@ -11,7 +11,9 @@
     "vector": "cpp",
     "ratio": "cpp",
     "algorithm": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "chrono": "cpp",
+    "functional": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
