@@ -263,6 +263,77 @@ int lastOccurence(int n, int key, vector<int> &arr)
     return ans;
 }
 
+int count(vector<int> &arr, int n, int x)
+{
+    // Linear approach
+    // int count = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (arr[i] == x)
+    //     {
+    //         count++;
+    //     }
+    // }
+    // return count;
+
+    // Binary Search Approach
+    int ans = lastOccurence(n, x, arr) - firstOccurence(n, x, arr) + 1;
+    return ans;
+}
+
+int sortedRotatedone(vector<int> &arr, int n, int k)
+{
+
+    // Linear Search
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      if (arr[i] == k)
+    //      {
+    //          return i;
+    //      }
+    //  }
+    //  return -1;
+
+    // Binary Search
+    int low = 0, high = n - 1;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        // if mid points the target
+        if (arr[mid] == k)
+            return mid;
+
+        // if left part is sorted:
+        if (arr[low] <= arr[mid])
+        {
+            if (arr[low] <= k && k <= arr[mid])
+            {
+                // element exists:
+                high = mid - 1;
+            }
+            else
+            {
+                // element does not exist:
+                low = mid + 1;
+            }
+        }
+        else
+        { // if right part is sorted:
+            if (arr[mid] <= k && k <= arr[high])
+            {
+                // element exists:
+                low = mid + 1;
+            }
+            else
+            {
+                // element does not exist:
+                high = mid - 1;
+            }
+        }
+    }
+    return -1;
+}
 int main()
 {
     // vector<int> arr = {2, 3, 5, 10, 13, 17};
@@ -291,13 +362,27 @@ int main()
     // pair<int, int> ans = getFloorAndCeil(arr4, n, x);
     // cout << "The floor and ceil are: " << ans.first << " " << ans.second << endl;
 
-    int n = 7;
-    int key = 13;
-    vector<int> v = {3, 4, 13, 13, 13, 20, 40};
+    // int n = 7;
+    // int key = 13;
+    // vector<int> v = {3, 4, 13, 13, 13, 20, 40};
 
-    // returning the first occurrence index if the element is present otherwise -1
-    cout << firstOccurence(n, key, v) << "\n";
-    cout << lastOccurence(n, key, v) << endl;
+    // // returning the first occurrence index if the element is present otherwise -1
+    // cout << firstOccurence(n, key, v) << "\n";
+    // cout << lastOccurence(n, key, v) << endl;
+
+    // vector<int> arr5 = {2, 4, 6, 8, 8, 8, 11, 13};
+    // int n = 8, x = 8;
+    // int ans = count(arr5, n, x);
+    // cout << "The number of occurrences is: "
+    //      << ans << "\n";
+
+    vector<int> arr = {7, 8, 9, 1, 2, 3, 4, 5, 6};
+    int n = 9, k = 1;
+    int ans = sortedRotatedone(arr, n, k);
+    if (ans == -1)
+        cout << "Target is not present.\n";
+    else
+        cout << "The index is: " << ans << "\n";
 
     return 0;
 }
