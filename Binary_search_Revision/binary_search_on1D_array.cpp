@@ -393,6 +393,131 @@ bool searchInARotatedSortedArrayII(vector<int> &arr, int k)
     }
     return false;
 }
+
+int findMin(vector<int> &arr)
+{
+    int n = arr.size();
+    int mini = INT_MAX;
+    // Linear approach
+    // for (int i = 0; i < n; i++)
+    // {
+    //     mini = min(arr[i], mini);
+    // }
+    // return mini;
+
+    // BS
+    // int s = 0, e = n - 1;
+    // while (s <= e)
+    // {
+    //     int mid = s + (e - s) / 2;
+    //     // if left part is sorted
+    //     if (arr[s] <= arr[mid])
+    //     {
+    //         mini = min(mini, arr[s]);
+    //         s = mid + 1;
+    //     }
+    //     else
+    //     {
+    //         mini = min(mini, arr[mid]);
+    //         e = mid - 1;
+    //     }
+    // }
+    // return mini;
+
+    // Optimize BS
+    int s = 0, e = n - 1;
+    while (s <= e)
+    {
+        int mid = s + (e - s) / 2;
+        // search space is already sorted
+        // then arr[low] will always be
+        // the minimum in that search space:
+
+        if (arr[s] <= arr[e])
+        {
+            mini = min(mini, arr[s]);
+            break;
+        }
+        // if left part is sorted
+        if (arr[s] <= arr[mid])
+        {
+            mini = min(mini, arr[s]);
+            s = mid + 1;
+        }
+        // if right part is sorted
+        else
+        {
+            mini = min(mini, arr[mid]);
+            e = mid - 1;
+        }
+    }
+    return mini;
+}
+
+int singleNonDuplicate(vector<int> &arr)
+{
+
+    // int n = arr.size();
+    // unordered_map<int, int> mpp;
+    // for(auto it : arr)
+    // {
+    //     mpp[it]++;
+    // }
+
+    // for (auto it : mpp)
+    // {
+    //     if (it.second == 1)
+    //     {
+    //         return it.first;
+    //     }
+    // }
+    // return -1;
+
+    // int n = arr.size();
+    // int xorr = 0;
+    // for (auto it : arr)
+    // {
+    //     xorr = xorr ^ it;
+    // }
+    // return xorr;
+
+    int n = arr.size();
+    if (n == 1)
+        return arr[0];
+
+    if (arr[0] != arr[1])
+        return arr[0];
+    if (arr[n - 1] != arr[n - 2])
+        return arr[n - 1];
+
+    int low = 1, high = n - 2;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        // if arr[mid] is the single element:
+        if (arr[mid] != arr[mid + 1] && arr[mid] != arr[mid - 1])
+        {
+            return arr[mid];
+        }
+
+        // we are in the left:
+        if ((mid % 2 == 1 && arr[mid] == arr[mid - 1]) || (mid % 2 == 0 && arr[mid] == arr[mid + 1]))
+        {
+            // eliminate the left half:
+            low = mid + 1;
+        }
+        // we are in the right:
+        else
+        {
+            // eliminate the right half:
+            high = mid - 1;
+        }
+    }
+
+    return -1;
+}
+
 int main()
 {
     // vector<int> arr = {2, 3, 5, 10, 13, 17};
@@ -443,13 +568,22 @@ int main()
     // else
     //     cout << "The index is: " << ans << "\n";
 
-    vector<int> arr = {7, 8, 1, 2, 3, 3, 3, 4, 5, 6};
-    int k = 3;
-    bool ans = searchInARotatedSortedArrayII(arr, k);
-    if (!ans)
-        cout << "Target is not present.\n";
-    else
-        cout << "Target is present in the array.\n";
+    // vector<int> arr = {7, 8, 1, 2, 3, 3, 3, 4, 5, 6};
+    // int k = 3;
+    // bool ans = searchInARotatedSortedArrayII(arr, k);
+    // if (!ans)
+    //     cout << "Target is not present.\n";
+    // else
+    //     cout << "Target is present in the array.\n";
+
+    // vector<int> arr = {4, 5, 6, 7, 0, 1, 2, 3};
+    // int ans = findMin(arr);
+    // cout << "The minimum element is: " << ans << "\n";
+
+    vector<int> arr = {1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6};
+    int ans = singleNonDuplicate(arr);
+    cout << "The single element is: " << ans << "\n";
+    return 0;
 
     return 0;
 }
