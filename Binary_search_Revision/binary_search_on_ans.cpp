@@ -122,6 +122,51 @@ int roseGarden(vector<int> &arr, int k, int m)
     }
     return s;
 }
+int sumByD(vector<int> &arr, int div)
+{
+    int sum = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        sum += ceil(double(arr[i]) / (double)div);
+    }
+    return sum;
+}
+int smallestDivisor(vector<int> &arr, int limit)
+{
+
+    // Brute force approach
+    int n = arr.size();
+    int maxi = INT_MIN;
+    for (int i = 0; i < n; i++)
+    {
+        maxi = max(maxi, arr[i]);
+    }
+
+    // for (int i = 1; i <= maxi; i++)
+    // {
+    //     if (sumByD(arr, i) <= limit)
+    //     {
+    //         return i;
+    //     }
+    // }
+    // return -1;
+
+    // Binary search approach
+    int s = 1, e = maxi;
+    while (s <= e)
+    {
+        int mid = s + (e - s) / 2;
+        if (sumByD(arr, mid) <= limit)
+        {
+            e = mid - 1;
+        }
+        else
+        {
+            s = mid + 1;
+        }
+    }
+    return s;
+}
 int main()
 {
     // vector<int> v = {7, 15, 6, 3};
@@ -129,13 +174,18 @@ int main()
     // int ans = minimumRateToEatBananas(v, h);
     // cout << "Koko should eat atleast " << ans << " bananas/hr.\n";
 
-    vector<int> arr = {7, 7, 7, 7, 13, 11, 12, 7};
-    int k = 3;
-    int m = 2;
-    int ans = roseGarden(arr, k, m);
-    if (ans == -1)
-        cout << "We cannot make m bouquets.\n";
-    else
-        cout << "We can make bouquets on day " << ans << "\n";
+    // vector<int> arr = {7, 7, 7, 7, 13, 11, 12, 7};
+    // int k = 3;
+    // int m = 2;
+    // int ans = roseGarden(arr, k, m);
+    // if (ans == -1)
+    //     cout << "We cannot make m bouquets.\n";
+    // else
+    //     cout << "We can make bouquets on day " << ans << "\n";
+
+    vector<int> arr = {1, 2, 3, 4, 5};
+    int limit = 8;
+    int ans = smallestDivisor(arr, limit);
+    cout << "The minimum divisor is: " << ans << "\n";
     return 0;
 }
