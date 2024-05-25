@@ -590,6 +590,63 @@ int floorSqrt(int n)
     }
     return e;
 }
+
+int findDays(vector<int> &arr, int cap)
+{
+    int days = 1;
+    int load = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (load + arr[i] > cap)
+        {
+            days += 1;
+            load = arr[i];
+        }
+        else
+        {
+            load += arr[i];
+        }
+    }
+    return days;
+}
+int leastWeightCapacity(vector<int> &arr, int d)
+{
+    int n = arr.size();
+    int maxi = INT_MIN;
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        maxi = max(maxi, arr[i]);
+        sum += arr[i];
+    }
+
+    // linear approach
+    //  for (int i = maxi; i <= sum; i++)
+    //  {
+    //      if (findDays(arr, i) <= d)
+    //      {
+    //          return i;
+    //      }
+    //  }
+    //  return -1;
+
+    // Binary Search approach
+    int s = maxi, e = sum;
+
+    while (s <= e)
+    {
+        int mid = s + (e - s) / 2;
+        if (findDays(arr, mid) <= d)
+        {
+            e = mid - 1;
+        }
+        else
+        {
+            s = mid + 1;
+        }
+    }
+    return s;
+}
 int main()
 {
     // vector<int> arr = {2, 3, 5, 10, 13, 17};
@@ -660,11 +717,15 @@ int main()
     // int ans = findPeakElement(arr);
     // cout << "The peak is at index: " << ans << "\n";
 
-    int n = 227;
-    int ans = floorSqrt(n);
-    cout << "The floor of square root of " << n
-         << " is: " << ans;
-    return 0;
+    // int n = 227;
+    // int ans = floorSqrt(n);
+    // cout << "The floor of square root of " << n
+    //      << " is: " << ans;
+
+    vector<int> weights = {5, 4, 5, 2, 3, 4, 5, 6};
+    int d = 5;
+    int ans = leastWeightCapacity(weights, d);
+    cout << "The minimum capacity should be: " << ans << "\n";
 
     return 0;
 }
