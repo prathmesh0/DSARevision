@@ -647,6 +647,40 @@ int leastWeightCapacity(vector<int> &arr, int d)
     }
     return s;
 }
+
+int missingK(vector<int> &arr, int n, int k)
+{
+    // Linear Approach
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      if (arr[i] <= k)
+    //      {
+    //          k++;
+    //      }
+    //      else
+    //      {
+    //          break;
+    //      }
+    //  }
+    //  return k;
+
+    // Binary Search Approach
+    int s = 0, e = n - 1;
+    while (s <= e)
+    {
+        int mid = s + (e - s) / 2;
+        int missing = arr[mid] - (mid + 1);
+        if (missing < k)
+        {
+            s = mid + 1;
+        }
+        else
+        {
+            e = mid - 1;
+        }
+    }
+    return k + e + 1; //  or s+k
+}
 int main()
 {
     // vector<int> arr = {2, 3, 5, 10, 13, 17};
@@ -722,10 +756,15 @@ int main()
     // cout << "The floor of square root of " << n
     //      << " is: " << ans;
 
-    vector<int> weights = {5, 4, 5, 2, 3, 4, 5, 6};
-    int d = 5;
-    int ans = leastWeightCapacity(weights, d);
-    cout << "The minimum capacity should be: " << ans << "\n";
+    // vector<int> weights = {5, 4, 5, 2, 3, 4, 5, 6};
+    // int d = 5;
+    // int ans = leastWeightCapacity(weights, d);
+    // cout << "The minimum capacity should be: " << ans << "\n";
+
+    vector<int> vec = {4, 7, 9, 10};
+    int n = 4, k = 4;
+    int ans = missingK(vec, n, k);
+    cout << "The missing number is: " << ans << "\n";
 
     return 0;
 }
