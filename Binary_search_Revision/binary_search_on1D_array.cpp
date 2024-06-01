@@ -742,59 +742,6 @@ int rowWithMax1s(vector<vector<int>> &matrix, int n, int m)
     return index;
 }
 
-bool canWePlace(vector<int> &stalls, int dist, int k)
-{
-    int n = stalls.size();
-    int cowcount = 1;
-    int last = stalls[0];
-
-    for (int i = 0; i <= n; i++)
-    {
-        if (stalls[i] - last >= dist)
-        {
-            cowcount++;
-            last = stalls[i];
-        }
-        if (cowcount >= k)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-int aggressiveCows(vector<int> &stalls, int k)
-{
-    int n = stalls.size();
-    sort(stalls.begin(), stalls.end());
-    int limit = stalls[n - 1] - stalls[0];
-
-    // Linear Approach
-    //  for (int i = 1; i <= limit; i++)
-    //  {
-    //      if (canWePlace(stalls, i, k) == false)
-    //      {
-    //          return i - 1;
-    //      }
-    //  }
-    //  return limit;
-
-    // Binary Approach
-    int s = 1, e = stalls[n - 1] - stalls[0];
-    while (s <= e)
-    {
-        int mid = s + (e - s) / 2;
-        if (canWePlace(stalls, mid, k) == true)
-        {
-            s = mid + 1;
-        }
-        else
-        {
-            e = mid - 1;
-        }
-    }
-    return e;
-}
-
 int countStudents(vector<int> &arr, int pages)
 {
     int n = arr.size(); // size of array.
@@ -1000,11 +947,6 @@ int main()
     // vector<vector<int>> matrix = {{1, 1, 1}, {0, 0, 1}, {0, 0, 0}};
     // int n = 3, m = 3;
     // cout << "The row with maximum no. of 1's is: " << rowWithMax1s(matrix, n, m) << '\n';
-
-    // vector<int> stalls = {0, 3, 4, 7, 10, 9};
-    // int k = 4;
-    // int ans = aggressiveCows(stalls, k);
-    // cout << "The maximum possible minimum distance is: " << ans << "\n";
 
     // vector<int> arr = {25, 46, 28, 49, 24};
     // int n = 5;

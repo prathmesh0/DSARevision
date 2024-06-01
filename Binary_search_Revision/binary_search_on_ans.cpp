@@ -193,9 +193,9 @@ int countPainters(vector<int> &boards, int time)
 int findLargestMinDistance(vector<int> &boards, int k)
 {
 
-    //LS
-    // int low = *max_element(boards.begin(), boards.end());
-    // int high = accumulate(boards.begin(), boards.end(), 0);
+    // LS
+    //  int low = *max_element(boards.begin(), boards.end());
+    //  int high = accumulate(boards.begin(), boards.end(), 0);
 
     // for (int time = low; time <= high; time++)
     // {
@@ -206,11 +206,10 @@ int findLargestMinDistance(vector<int> &boards, int k)
     // }
     // return low;
 
-
-    //Bs
+    // Bs
     int low = *max_element(boards.begin(), boards.end());
     int high = accumulate(boards.begin(), boards.end(), 0);
-    
+
     while (low <= high)
     {
         int mid = (low + high) / 2;
@@ -226,6 +225,189 @@ int findLargestMinDistance(vector<int> &boards, int k)
     }
     return low;
 }
+
+bool canWePlace(vector<int> &stalls, int dist, int k)
+{
+    int n = stalls.size();
+    int countCows = 1;
+    int last = stalls[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (stalls[i] - last >= dist)
+        {
+            countCows++;
+            last = stalls[i];
+        }
+    }
+    if (countCows >= k)
+    {
+        return true;
+    }
+    return false;
+}
+int aggressiveCows(vector<int> &stalls, int k)
+{
+    int n = stalls.size();
+    sort(stalls.begin(), stalls.end());
+    int limit = stalls[n - 1] - stalls[0];
+
+    // LS
+    //  for (int i = 1; i <= limit; i++)
+    //  {
+    //      if (canWePlace(stalls, i, k) == false)
+    //      {
+    //          return (i - 1);
+    //      }
+    //  }
+    //  return limit;
+
+    // BS
+    int s = 1, e = limit;
+    while (s <= e)
+    {
+        int mid = s + (e - s) / 2;
+        if (canWePlace(stalls, mid, k))
+        {
+            s = mid + 1;
+        }
+        else
+        {
+            e = mid - 1;
+        }
+    }
+    return e;
+}
+
+double median(vector<int> &a, vector<int> &b)
+{
+    // Brute force approach
+    // int n1 = a.size(), n2 = b.size();
+
+    // vector<int> arr3;
+
+    // int i = 0, j = 0;
+    // while (i < n1 && j < n2)
+    // {
+    //     if (a[i] < b[j])
+    //         arr3.push_back(a[i++]);
+    //     else
+    //         arr3.push_back(b[j++]);
+    // }
+
+    // while (i < n1)
+    //     arr3.push_back(a[i++]);
+    // while (j < n2)
+    //     arr3.push_back(b[j++]);
+
+    // int n = n1 + n2;
+    // if (n % 2 == 1)
+    // {
+    //     return (double)arr3[n / 2];
+    // }
+
+    // double median = ((double)arr3[n / 2] + (double)arr3[(n / 2) - 1]) / 2.0;
+    // return median;
+
+    // Optimal Approach
+    // int n1 = a.size(), n2 = b.size();
+    // int n = n1 + n2; // total size
+
+    // int ind2 = n / 2;
+    // int ind1 = ind2 - 1;
+    // int cnt = 0;
+    // int ind1el = -1, ind2el = -1;
+
+    // int i = 0, j = 0;
+    // while (i < n1 && j < n2)
+    // {
+    //     if (a[i] < b[j])
+    //     {
+    //         if (cnt == ind1)
+    //             ind1el = a[i];
+    //         if (cnt == ind2)
+    //             ind2el = a[i];
+    //         cnt++;
+    //         i++;
+    //     }
+    //     else
+    //     {
+    //         if (cnt == ind1)
+    //             ind1el = b[j];
+    //         if (cnt == ind2)
+    //             ind2el = b[j];
+    //         cnt++;
+    //         j++;
+    //     }
+    // }
+
+    // while (i < n1)
+    // {
+    //     if (cnt == ind1)
+    //         ind1el = a[i];
+    //     if (cnt == ind2)
+    //         ind2el = a[i];
+    //     cnt++;
+    //     i++;
+    // }
+    // while (j < n2)
+    // {
+    //     if (cnt == ind1)
+    //         ind1el = b[j];
+    //     if (cnt == ind2)
+    //         ind2el = b[j];
+    //     cnt++;
+    //     j++;
+    // }
+
+    // if (n % 2 == 1)
+    // {
+    //     return (double)ind2el;
+    // }
+
+    // return (double)((double)(ind1el + ind2el)) / 2.0;
+
+    // Optimal Approach using BS
+    int n1 = a.size(), n2 = b.size();
+
+    if (n1 > n2)
+        return median(b, a);
+
+    int n = n1 + n2;              // total length
+    int left = (n1 + n2 + 1) / 2; // length of left half
+
+    int low = 0, high = n1;
+    while (low <= high)
+    {
+        int mid1 = (low + high) >> 1;
+        int mid2 = left - mid1;
+        // calculate l1, l2, r1 and r2;
+        int l1 = INT_MIN, l2 = INT_MIN;
+        int r1 = INT_MAX, r2 = INT_MAX;
+        if (mid1 < n1)
+            r1 = a[mid1];
+        if (mid2 < n2)
+            r2 = b[mid2];
+        if (mid1 - 1 >= 0)
+            l1 = a[mid1 - 1];
+        if (mid2 - 1 >= 0)
+            l2 = b[mid2 - 1];
+
+        if (l1 <= r2 && l2 <= r1)
+        {
+            if (n % 2 == 1)
+                return max(l1, l2);
+            else
+                return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
+        }
+
+        else if (l1 > r2)
+            high = mid1 - 1;
+        else
+            low = mid1 + 1;
+    }
+    return 0;
+}
+
 int main()
 {
     // vector<int> v = {7, 15, 6, 3};
@@ -247,10 +429,20 @@ int main()
     // int ans = smallestDivisor(arr, limit);
     // cout << "The minimum divisor is: " << ans << "\n";
 
-    vector<int> boards = {10, 20, 30, 40};
-    int k = 2;
-    int ans = findLargestMinDistance(boards, k);
-    cout << "The answer is: " << ans << "\n";
+    // vector<int> stalls = {0, 3, 4, 7, 10, 9};
+    // int k = 4;
+    // int ans = aggressiveCows(stalls, k);
+    // cout << "The maximum possible minimum distance is: " << ans << "\n";
+
+    // vector<int> boards = {10, 20, 30, 40};
+    // int k = 2;
+    // int ans = findLargestMinDistance(boards, k);
+    // cout << "The answer is: " << ans << "\n";
+
+    vector<int> a = {1, 4, 7, 10, 12};
+    vector<int> b = {2, 3, 6, 15};
+    cout << "The median of two sorted array is " << fixed << setprecision(1)
+         << median(a, b) << '\n';
 
     return 0;
 }
