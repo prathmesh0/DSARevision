@@ -187,6 +187,61 @@ bool searchElement1(vector<vector<int>> &arr, int target)
     return false;
 }
 
+bool isPeak(vector<vector<int>> &mat, int i, int j)
+{
+    int n = mat.size();
+    int m = mat[0].size();
+
+    if (i > 0 && mat[i][j] < mat[i - 1][j])
+        return false;
+    if (i < n - 1 && mat[i][j] < mat[i + 1][j])
+        return false;
+    if (j > 0 && mat[i][j] < mat[i][j - 1])
+        return false;
+    if (j < m - 1 && mat[i][j] < mat[i][j + 1])
+        return false;
+
+    return true;
+}
+
+vector<int> findPeakGrid(vector<vector<int>> &mat)
+{
+    int n = mat.size();
+    int m = mat[0].size();
+
+    // Brute force appraoch
+    // for (int i = 0; i < n; i++)
+    // {
+    //     for (int j = 0; j < m; j++)
+    //     {
+    //         if (isPeak(mat, i, j))
+    //         {
+    //             return {i, j};
+    //         }
+    //     }
+    // }
+    // return {-1, -1};
+
+    // Better
+    int n = mat.size();
+    int m = mat[0].size();
+    int maxi = INT_MIN;
+    int row = -1, col = -1;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (mat[i][j] > maxi)
+            {
+                maxi = mat[i][j];
+                row = i;
+                col = j;
+            }
+        }
+    }
+
+    return {row, col};
+}
 int main()
 {
     // vector<vector<int>> matrix = {{1, 1, 1}, {0, 0, 1}, {0, 0, 0}};
@@ -196,7 +251,16 @@ int main()
     // vector<vector<int>> matrix = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
     // searchMatrix(matrix, 8) == true ? cout << "true\n" : cout << "false\n";
 
-    vector<vector<int>> matrix = {{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}};
-    searchElement1(matrix, 8) == true ? cout << "true\n" : cout << "false\n";
+    // vector<vector<int>> matrix = {{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}};
+    // searchElement1(matrix, 8) == true ? cout << "true\n" : cout << "false\n";
+
+    vector<vector<int>> mat = {
+        {1, 4, 3},
+        {6, 5, 2},
+        {7, 8, 9}};
+
+    vector<int> peak = findPeakGrid(mat);
+    cout << "Peak element found at: (" << peak[0] << ", " << peak[1] << ")" << endl;
+
     return 0;
 }
