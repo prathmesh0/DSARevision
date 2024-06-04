@@ -380,7 +380,7 @@ double median(vector<int> &a, vector<int> &b)
     {
         int mid1 = (low + high) >> 1;
         int mid2 = left - mid1;
-        
+
         // calculate l1, l2, r1 and r2;
         int l1 = INT_MIN, l2 = INT_MIN;
         int r1 = INT_MAX, r2 = INT_MAX;
@@ -407,6 +407,65 @@ double median(vector<int> &a, vector<int> &b)
             low = mid1 + 1;
     }
     return 0;
+}
+int countStudents(vector<int> arr, int pages)
+{
+    int countStudent = 1;
+    int n = arr.size();
+    long long pagesStudent = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (pagesStudent + arr[i] <= pages)
+        {
+            pagesStudent += arr[i];
+        }
+        else
+        {
+            countStudent++;
+            pagesStudent = arr[i];
+        }
+    }
+    return countStudent;
+}
+int findPages(vector<int> arr, int n, int m)
+{
+    if (m > n)
+        return -1;
+    int sum = 0;
+    int maxi = INT_MIN;
+
+    for (int i = 0; i < n; i++)
+    {
+        maxi = max(maxi, arr[i]);
+        sum += arr[i];
+    }
+    // Brute force
+    //  for (int i = maxi; i <= sum; i++)
+    //  {
+    //      int countStu = countStudents(arr, i);
+    //      if (countStu == m)
+    //      {
+    //          return i;
+    //      }
+    //  }
+    //  return maxi;
+
+    // Binary Search
+
+    int s = maxi, e = sum;
+    while (s <= e)
+    {
+        int mid = s + (e - s) / 2;
+        if (countStudents(arr, mid) > m)
+        {
+            s = mid + 1;
+        }
+        else
+        {
+            e = mid - 1;
+        }
+    }
+    return s;
 }
 
 int main()
@@ -440,10 +499,16 @@ int main()
     // int ans = findLargestMinDistance(boards, k);
     // cout << "The answer is: " << ans << "\n";
 
-    vector<int> a = {1, 4, 7, 10, 12};
-    vector<int> b = {2, 3, 6, 15};
-    cout << "The median of two sorted array is " << fixed << setprecision(1)
-         << median(a, b) << '\n';
+    vector<int> arr = {25, 46, 28, 49, 24};
+    int n = 5;
+    int m = 4;
+    int ans = findPages(arr, n, m);
+    cout << "The answer is: " << ans << "\n";
+
+    // vector<int> a = {1, 4, 7, 10, 12};
+    // vector<int> b = {2, 3, 6, 15};
+    // cout << "The median of two sorted array is " << fixed << setprecision(1)
+    //      << median(a, b) << '\n';
 
     return 0;
 }
