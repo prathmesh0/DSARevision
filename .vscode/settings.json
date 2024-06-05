@@ -13,7 +13,10 @@
     "algorithm": "cpp",
     "ostream": "cpp",
     "chrono": "cpp",
-    "functional": "cpp"
+    "functional": "cpp",
+    "regex": "cpp",
+    "sstream": "cpp",
+    "ios": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
