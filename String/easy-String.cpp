@@ -136,6 +136,80 @@ string reverseWords(string s)
     }
     return ans;
 }
+
+string largestOddNumber(string num)
+{
+    // brute force
+    //  check the code again
+    //   int n = num.size();
+    //   string ans = "";
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     string temp = "";
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         temp += num[j];
+    //         if ((temp.back() - '0') % 2 == 1)
+    //         {
+    //             if (ans.empty() || temp > ans)
+    //             {
+    //                 ans = temp;
+    //             }
+    //         }
+    //     }
+    // }
+    // return ans;
+
+    // Optimal approach
+    int n = num.length();
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if ((num[i] - '0') % 2 == 1)
+        {
+            string ans = num.substr(0, i + 1);
+            return ans;
+        }
+    }
+    return "";
+}
+string longestCommonPrefix(vector<string> &strs)
+{
+    // brute force
+    //  string ans;
+    //  for (int i = 0; i < strs[0].size(); i++)
+    //  {
+    //      for (int j = 1; j < strs.size(); j++)
+    //      {
+    //          if (strs[0][i] != strs[j][i])
+    //          {
+    //              return ans;
+    //          }
+    //      }
+    //      ans += strs[0][i];
+    //  }
+    //  return ans;
+
+    // optimal approach
+
+    string ans = "";
+    int x = strs.size();
+    sort(strs.begin(), strs.end());
+
+    string first = strs[0];
+    string last = strs[x - 1];
+    int n = first.length(), m = last.length();
+    for (int i = 0; i < min(n, m); i++)
+    {
+        if (first[i] != last[i])
+        {
+            return ans;
+        }
+        ans += first[i];
+    }
+    return ans;
+}
 int main()
 {
 
@@ -143,8 +217,12 @@ int main()
 
     // cout << "Test 1: " << removeOuterParentheses(test1) << endl;
 
-    string s = "  Hello   World!!   ";
-    cout << reverseWords(s);
+    // string s = "  Hello   World!!   ";
+    // cout << reverseWords(s);
 
+    // string test3 = "35427";
+    // cout << "Test 3: " << largestOddNumber(test3) << endl;
+    vector<string> s = {"flower", "flow", "flight"};
+    cout << longestCommonPrefix(s);
     return 0;
 }
