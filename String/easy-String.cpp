@@ -210,6 +210,56 @@ string longestCommonPrefix(vector<string> &strs)
     }
     return ans;
 }
+
+bool isIsomorphic(string s, string t)
+{
+    //Brute force
+    // if (s.length() != t.length())
+    //     return false;
+
+    // for (int i = 0; i < s.length(); i++)
+    // {
+    //     for (int j = 0; j < s.length(); j++)
+    //     {
+    //         if (((s[i] == s[j]) && (t[i] != t[j])) || ((s[i] != s[j]) && (t[i] == t[j])))
+    //         {
+    //             return false;
+    //         }
+    //     }
+    // }
+    // return true;
+
+    //optimal approach
+    if (s.length() != t.length())
+        return false;
+    unordered_map<char, char> mp1, mp2;
+
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (mp1.find(s[i]) != mp1.end())
+        {
+            if (mp1[s[i]] != t[i])
+            {
+                return false;
+            }
+        }
+        else if (mp2.find(t[i]) != mp2.end())
+        {
+            if (mp2[t[i]] != s[i])
+            {
+                return false;
+            }
+        }
+        else
+        {
+            mp1[s[i]] = t[i];
+            mp2[t[i]] = s[i];
+        }
+    }
+    return true;
+
+    
+}
 int main()
 {
 
@@ -222,7 +272,18 @@ int main()
 
     // string test3 = "35427";
     // cout << "Test 3: " << largestOddNumber(test3) << endl;
-    vector<string> s = {"flower", "flow", "flight"};
-    cout << longestCommonPrefix(s);
+    // vector<string> s = {"flower", "flow", "flight"};
+    // cout << longestCommonPrefix(s);
+
+    string s = "egg";
+    string t = "add";
+    if (isIsomorphic(s, t))
+    {
+        cout << "Isomorphic String" << endl;
+    }
+    else
+    {
+        cout << " Not Isomorphic String" << endl;
+    }
     return 0;
 }
