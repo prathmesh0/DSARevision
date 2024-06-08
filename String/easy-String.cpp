@@ -213,9 +213,9 @@ string longestCommonPrefix(vector<string> &strs)
 
 bool isIsomorphic(string s, string t)
 {
-    //Brute force
-    // if (s.length() != t.length())
-    //     return false;
+    // Brute force
+    //  if (s.length() != t.length())
+    //      return false;
 
     // for (int i = 0; i < s.length(); i++)
     // {
@@ -229,7 +229,7 @@ bool isIsomorphic(string s, string t)
     // }
     // return true;
 
-    //optimal approach
+    // optimal approach
     if (s.length() != t.length())
         return false;
     unordered_map<char, char> mp1, mp2;
@@ -257,9 +257,132 @@ bool isIsomorphic(string s, string t)
         }
     }
     return true;
-
-    
 }
+
+bool isAnagram(string s, string t)
+{
+    // Brute force approach
+    // if (s.length() != t.length())
+    //     return false;
+    // sort(s.begin(), s.end());
+    // sort(t.begin(), t.end());
+    // return s == t;
+
+    // Optimise approach
+    int freq[26] = {0};
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        freq[s[i] - 'a']++;
+    }
+
+    for (int i = 0; i < t.length(); i++)
+    {
+        freq[t[i] - 'a']--;
+    }
+
+    for (int i = 0; i < 26; i++)
+    {
+        if (freq[i] != 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool rotateString(string s, string goal)
+{
+
+    // brute force
+    // if (s.length() != goal.length())
+    // {
+    //     return false;
+    // }
+    // queue<char> q1;
+    // queue<char> q2;
+
+    // for (int i = 0; i < s.size(); i++)
+    // {
+    //     q1.push(s[i]);
+    // }
+    // for (int i = 0; i < goal.size(); i++)
+    // {
+    //     q2.push(goal[i]);
+    // }
+    // int k = goal.size();
+
+    // while (k--)
+    // {
+    //     char ch = q2.front();
+    //     q2.pop();
+    //     q2.push(ch);
+    //     if (q1 == q2)
+    //         return true;
+    // }
+    // return false;
+
+    // optimal approach
+    if (s.length() != goal.length())
+    {
+        return false;
+    }
+
+    string temp = s + s;
+    return (temp.find(goal) != string::npos);
+}
+
+int maxDepth(string s)
+{
+    // brute-force
+    //  stack<char> st;
+    //  int ans = 0;
+    //  for (int i = 0; i < s.size(); i++)
+    //  {
+    //      if (s[i] == '(')
+    //      {
+    //          st.push('(');
+    //      }
+    //      else if (s[i] == ')')
+    //      {
+    //          st.pop();
+    //      }
+    //      ans = max(ans, (int)st.size());
+    //  }
+    //  return ans;
+
+    // optimal approach
+    int max = 0;
+    int curr_max = 0;
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == '(')
+        {
+            curr_max++;
+            if (curr_max > max)
+            {
+                max = curr_max;
+            }
+        }
+        else if (s[i] == ')')
+        {
+            if (curr_max > 0)
+            {
+                curr_max--;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+    if (curr_max != 0)
+    {
+        return -1;
+    }
+    return max;
+}
+
 int main()
 {
 
@@ -275,15 +398,38 @@ int main()
     // vector<string> s = {"flower", "flow", "flight"};
     // cout << longestCommonPrefix(s);
 
-    string s = "egg";
-    string t = "add";
-    if (isIsomorphic(s, t))
-    {
-        cout << "Isomorphic String" << endl;
-    }
-    else
-    {
-        cout << " Not Isomorphic String" << endl;
-    }
+    // string s = "egg";
+    // string t = "add";
+    // if (isIsomorphic(s, t))
+    // {
+    //     cout << "Isomorphic String" << endl;
+    // }
+    // else
+    // {
+    //     cout << " Not Isomorphic String" << endl;
+    // }
+    // string s = "act", t = "cdat";
+    // if (isAnagram(s, t))
+    // {
+    //     cout << "Anagram " << endl;
+    // }
+    // else
+    // {
+    //     cout << " Not Anagram " << endl;
+    // }
+
+    // string s = "abcde", goal = "cdeab";
+    // if (rotateString(s, goal))
+    // {
+    //     cout << "Rotated" << endl;
+    // }
+    // else
+    // {
+    //     cout << " Not Rotated" << endl;
+    // }
+
+    string s = "(1+(2*3)+((8)/4))+1";
+    cout << maxDepth(s) << endl;
+
     return 0;
 }
