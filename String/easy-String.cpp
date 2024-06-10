@@ -383,6 +383,72 @@ int maxDepth(string s)
     return max;
 }
 
+int romanToInt(string s)
+{
+    unordered_map<char, int> mpp = {
+        {'I', 1},
+        {'V', 5},
+        {'X', 10},
+        {'L', 50},
+        {'C', 100},
+        {'D', 500},
+        {'M', 1000},
+    };
+    int num, sum = 0;
+    int n = s.length();
+    for (int i = 0; i < n;)
+    {
+        if (i == (n - 1) || (mpp[s[i]] >= mpp[s[i + 1]]))
+        {
+            num = mpp[s[i]];
+            i++;
+        }
+        else
+        {
+            num = mpp[s[i + 1]] - mpp[s[i]];
+            i = i + 2;
+        }
+        sum += num;
+    }
+    return sum;
+}
+
+int myAtoi(string s)
+{
+    if (s.length() == 0)
+    {
+        return 0;
+    }
+    int i = 0;
+    // handle leading white spaces
+    while (i < s.size() && s[i] == ' ')
+    {
+        i++;
+    }
+    s = s.substr(i);
+    long ans = 0;
+    int sign = +1;
+
+    if (s[0] == '-')
+        sign = -1;
+    i = (s[0] == '+' || s[0] == '-') ? 1 : 0;
+
+    while (i < s.length())
+    {
+        if (s[0] == ' ' || !isdigit(s[i]))
+        {
+            break;
+        }
+        ans = ans * 10 + (s[i] - '0');
+        if (sign == -1 && -1 * ans < INT_MIN)
+            return INT_MIN;
+        if (sign == 1 && ans > INT_MAX)
+            return INT_MAX;
+        i++;
+    }
+    return (int)(sign * ans);
+}
+
 int main()
 {
 
@@ -428,8 +494,14 @@ int main()
     //     cout << " Not Rotated" << endl;
     // }
 
-    string s = "(1+(2*3)+((8)/4))+1";
-    cout << maxDepth(s) << endl;
+    // string s = "(1+(2*3)+((8)/4))+1";
+    // cout << maxDepth(s) << endl;
+
+    // string s1 = "LVIII";
+    // cout << romanToInt(s1) << endl;
+
+    string s2 = "    -1337c0d3";
+    cout << myAtoi(s2) << endl;
 
     return 0;
 }
