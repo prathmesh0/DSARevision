@@ -449,6 +449,99 @@ int myAtoi(string s)
     return (int)(sign * ans);
 }
 
+char nonrepeatingCharacter(string S)
+{
+
+    vector<int> mpp(26, 0);
+    int n = S.length();
+
+    for (int i = 0; i < n; i++)
+    {
+        mpp[S[i] - 'a']++;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        if (mpp[S[i] - 'a'] == 1)
+        {
+            return S[i];
+        }
+    }
+
+    return '$';
+}
+char *reverse(char *S, int len)
+{
+    stack<char> st;
+
+    for (int i = 0; i < len; i++)
+    {
+        st.push(S[i]);
+    }
+
+    int i = 0;
+    while (!st.empty())
+    {
+        char ch = st.top();
+        S[i++] = ch;
+        st.pop();
+    }
+    return S;
+}
+
+string removeDups(string S)
+{
+
+    // Brute force
+    unordered_set<char> st;
+    string ans = "";
+
+    for (auto it : S)
+    {
+        if (st.find(it) == st.end())
+        {
+            ans += it;
+            st.insert(it);
+        }
+    }
+    return ans;
+    // Optimal Approach
+
+    // string ans = "";
+    // for (int i = 0; i < S.length(); i++)
+    // {
+    //     if (ans.find(S[i]) == string::npos)
+    //     {
+    //         ans += S[i];
+    //     }
+    // }
+    // return ans;
+}
+
+char getMaxOccuringChar(string str)
+{
+    map<char, int> mpp;
+    char ans;
+    int maxi = INT_MIN;
+
+    // Count frequency of each character
+    for (int i = 0; i < str.size(); i++)
+    {
+        mpp[str[i]]++;
+    }
+
+    // Find the character with the maximum frequency
+    for (auto it : mpp)
+    {
+        if (it.second > maxi)
+        {
+            ans = it.first;
+            maxi = it.second;
+        }
+    }
+
+    return ans;
+}
 int main()
 {
 
@@ -500,8 +593,22 @@ int main()
     // string s1 = "LVIII";
     // cout << romanToInt(s1) << endl;
 
-    string s2 = "    -1337c0d3";
-    cout << myAtoi(s2) << endl;
+    // string s2 = "    -1337c0d3";
+    // cout << myAtoi(s2) << endl;
+
+    // string s = "aabddggee";
+    // cout << nonrepeatingCharacter(s);
+
+    // char S1[] = "hello";
+    // int len1 = strlen(S1);
+    // cout << "Original: " << S1 << endl;
+    // cout << "Reversed: " << reverse(S1, len1) << endl;
+
+    // string s = "aabddjggfee";
+    // cout << removeDups(s);
+
+    // string s2 = "hhggghhhhhhrwjdn";
+    // cout << getMaxOccuringChar(s2);
 
     return 0;
 }
