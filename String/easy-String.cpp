@@ -542,6 +542,76 @@ char getMaxOccuringChar(string str)
 
     return ans;
 }
+
+bool check(int k, string s, string x)
+{
+
+    for (int i = 0; i < x.length(); i++)
+    {
+        if (s[k + i] != x[i])
+            return false;
+    }
+    return true;
+}
+int strstr(string s, string x)
+{
+    // int n = s.length();
+    // int m = x.length();
+
+    // if (m > n)
+    //     return -1;
+    // for (int i = 0; i <= n - m; i++)
+    // {
+    //     if (s.substr(i, m) == x)
+    //     {
+    //         return i;
+    //     }
+    // }
+    // return -1;
+
+    // without using inbuilt function
+    if (s.length() < x.length())
+    {
+        return -1;
+    }
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (s[i] == x[0])
+        {
+            if (check(i, s, x))
+                return i;
+        }
+    }
+    return -1;
+}
+
+vector<string> winner(string arr[], int n)
+{
+    map<string, int> mpp;
+    vector<string> ans;
+
+    for (int i = 0; i < n; i++)
+    {
+        mpp[arr[i]]++;
+    }
+
+    string temp = "";
+    int maxi = INT_MIN;
+    for (auto it : mpp)
+    {
+        if (it.second > maxi)
+        {
+            maxi = it.second;
+            temp = it.first;
+        }
+    }
+
+    ans.push_back(temp);
+    ans.push_back(to_string(maxi));
+    return ans;
+}
+
 int main()
 {
 
@@ -609,6 +679,20 @@ int main()
 
     // string s2 = "hhggghhhhhhrwjdn";
     // cout << getMaxOccuringChar(s2);
+
+    // string s = "GeeksForGeeks", x = "For";
+    // cout << strstr(s, x);
+
+    int n = 13;
+    string arr[] = {"john", "johnny", "jackie", "johnny", "john",
+                    "jackie", "jamie", "jamie", "john", "johnny", "jamie",
+                    "johnny", "john"};
+
+    vector<string> ans = winner(arr, n);
+    for (auto it : ans)
+    {
+        cout << it << " ";
+    }
 
     return 0;
 }
