@@ -612,6 +612,61 @@ vector<string> winner(string arr[], int n)
     return ans;
 }
 
+int minIndexChar(string str, string patt)
+{
+    // Brute force
+    //  set<char> st;
+
+    // for (auto it : patt)
+    // {
+    //     st.insert(it);
+    // }
+
+    // int mini = INT_MAX;
+    // for (int i = 0; i < str.length(); i++)
+    // {
+    //     if (st.find(str[i]) != st.end())
+    //     {
+    //         mini = min(mini, i);
+    //     }
+    // }
+    // return mini == INT_MAX ? -1 : mini;
+
+    // Optimal approach
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (patt.find(str[i]) != string::npos)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+string encode(string s)
+{
+    string ans;
+    int cnt = 1;
+    char prev = s[0];
+    for (int i = 1; i < s.length(); i++)
+    {
+        if (s[i] == prev)
+        {
+            cnt++;
+        }
+        else
+        {
+            ans += prev;
+            ans += to_string(cnt);
+            prev = s[i];
+            cnt = 1;
+        }
+    }
+    ans += prev;
+    ans += to_string(cnt);
+    return ans;
+}
+
 int main()
 {
 
@@ -683,16 +738,20 @@ int main()
     // string s = "GeeksForGeeks", x = "For";
     // cout << strstr(s, x);
 
-    int n = 13;
-    string arr[] = {"john", "johnny", "jackie", "johnny", "john",
-                    "jackie", "jamie", "jamie", "john", "johnny", "jamie",
-                    "johnny", "john"};
+    // int n = 13;
+    // string arr[] = {"john", "johnny", "jackie", "johnny", "john",
+    //                 "jackie", "jamie", "jamie", "john", "johnny", "jamie",
+    //                 "johnny", "john"};
 
-    vector<string> ans = winner(arr, n);
-    for (auto it : ans)
-    {
-        cout << it << " ";
-    }
+    // vector<string> ans = winner(arr, n);
+    // for (auto it : ans)
+    // {
+    //     cout << it << " ";
+    // }
+
+    string str = "geeksforgeeks";
+    string patt = "set";
+    cout << minIndexChar(str, patt) << endl;
 
     return 0;
 }
