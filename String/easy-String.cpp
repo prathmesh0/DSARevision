@@ -667,6 +667,126 @@ string encode(string s)
     return ans;
 }
 
+bool isPalindrome(string str)
+{
+    int s = 0, e = str.length() - 1;
+    while (s <= e)
+    {
+        if (str[s] != str[e])
+        {
+            return false;
+        }
+        s++;
+        e--;
+    }
+    return true;
+}
+
+string longestPalindrome(string s)
+{
+    // int n = s.length();
+    // if (n == 0)
+    //     return "";
+    // if (n == 1)
+    //     return s;
+
+    // string ans = "";
+    // for (int i = 0; i < n; i++)
+    // {
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         string curr_sub = s.substr(i, j - i + 1);
+    //         if (isPalindrome(curr_sub))
+    //         {
+    //             if (ans.size() < curr_sub.size())
+    //             {
+    //                 ans = curr_sub;
+    //             }
+    //         }
+    //     }
+    // }
+    // return ans;
+
+    int n = s.length();
+    int len = 1;
+    int start = 0, end = 0;
+    for (int i = 0; i < n; i++)
+    {
+
+        // odd length palindrome check
+        int l = i - 1, r = i + 1;
+        while (l >= 0 && r < n && s[l] == s[r])
+        {
+            if ((r - l + 1) > len)
+            {
+                len = r - l + 1;
+                start = l;
+                end = r;
+            }
+            l--;
+            r++;
+        }
+
+        // even length palindrome check
+        l = i;
+        r = i + 1;
+        while (l >= 0 && r < n && s[l] == s[r])
+        {
+            if ((r - l + 1) > len)
+            {
+                len = r - l + 1;
+                start = l;
+                end = r;
+            }
+            l--;
+            r++;
+        }
+    }
+    string ans = s.substr(start, end - start + 1);
+    return ans;
+}
+
+int beautySum(string s)
+{
+    // int n = s.length();
+    // int ans = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     unordered_map<char, int> mpp;
+    //     for (int j = i; j < n; j++)
+    //     {
+    //         mpp[s[j]]++;
+    //         int mini = INT_MAX, maxi = INT_MIN;
+    //         for (auto it : mpp)
+    //         {
+    //             mini = min(mini, it.second);
+    //             maxi = max(maxi, it.second);
+    //         }
+    //         ans += maxi - mini;
+    //     }
+    // }
+    // return ans;
+
+    int ans = 0;
+    int n = s.length();
+    for (int i = 0; i < n; i++)
+    {
+        unordered_map<char, int> mpp;
+        multiset<int> st;
+        for (int j = i; j < n; j++)
+        {
+            if (mpp.find(s[j]) != mpp.end())
+            {
+                st.erase(st.find(mpp[s[j]]));
+            }
+            mpp[s[j]]++;
+            st.insert(mpp[s[j]]);
+            ans += (*st.rbegin() - *st.begin());
+        }
+    }
+    return ans;
+}
+
 int main()
 {
 
@@ -749,9 +869,13 @@ int main()
     //     cout << it << " ";
     // }
 
-    string str = "geeksforgeeks";
-    string patt = "set";
-    cout << minIndexChar(str, patt) << endl;
+    // string str = "geeksforgeeks";
+    // string patt = "set";
+    // cout << minIndexChar(str, patt) << endl;
 
+    // string s = "babad";
+    // cout << longestPalindrome(s) << endl;
+    string s = "aabcbaa";
+    cout << beautySum(s) << endl;
     return 0;
 }
