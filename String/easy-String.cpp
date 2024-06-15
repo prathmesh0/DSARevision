@@ -786,7 +786,43 @@ int beautySum(string s)
     }
     return ans;
 }
+bool checkPangram(string s)
+{
+    int arr[26] = {0};
 
+    for (auto it : s)
+    {
+        int k = tolower(it) - 'a';
+        arr[k]++;
+    }
+
+    for (auto it : arr)
+    {
+        if (it == 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+bool isIsogram(string s)
+{
+    vector<int> freq(26, 0);
+    for (int i = 0; i < s.size(); i++)
+    {
+        freq[s[i] - 'a']++;
+    }
+
+    for (auto it : freq)
+    {
+        if (it > 1)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
 int main()
 {
 
