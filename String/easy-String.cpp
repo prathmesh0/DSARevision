@@ -823,6 +823,59 @@ bool isIsogram(string s)
 
     return true;
 }
+
+string firstRepChar(string s)
+{
+    string ans;
+    unordered_map<int, int> mpp;
+    for (int i = 0; i < s.length(); i++)
+    {
+        mpp[s[i]]++;
+        if (mpp[s[i]] > 1)
+        {
+            ans.push_back(s[i]);
+            return ans;
+        }
+    }
+    return "-1";
+}
+
+long binarySubstring(int n, string a)
+{
+    //Brute force
+    // long count = 0;
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     if (a[i] == '1')
+    //     {
+    //         for (int j = i + 1; j < n; j++)
+    //         {
+    //             if (a[j] == '1')
+    //             {
+    //                 count++;
+    //             }
+    //         }
+    //     }
+    // }
+
+    // return count;
+
+    // Optimal approach
+    long count = 0;
+
+    for (long i = 0; i < a.size(); i++)
+    {
+        if (a[i] == '1')
+        {
+            count++;
+        }
+    }
+
+    long ans = count * (count - 1) / 2;
+    return ans;
+}
+
 int main()
 {
 
@@ -911,7 +964,14 @@ int main()
 
     // string s = "babad";
     // cout << longestPalindrome(s) << endl;
-    string s = "aabcbaa";
-    cout << beautySum(s) << endl;
+    // string s = "aabcbaa";
+    // cout << beautySum(s) << endl;
+
+    // string s = "geeksforgeeks";
+    // cout << firstRepChar(s) << endl;
+
+    int n = 4;
+    string s = "1111";
+    cout << binarySubstring(n, s) << endl;
     return 0;
 }
