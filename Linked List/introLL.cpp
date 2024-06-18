@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 class Node
@@ -7,13 +7,12 @@ public:
     int data;
     Node *next;
 
-    // creating constructor
     Node(int data)
     {
         this->data = data;
         this->next = NULL;
     }
-    // destructor
+
     ~Node()
     {
         int value = this->data;
@@ -27,82 +26,19 @@ public:
     }
 };
 
-// insert at head
-void insertAtHead(Node *&Head, int d)
+Node *convertArraytoLL(vector<int> &arr)
 {
-    Node *temp = new Node(d);
-    temp->next = Head;
-    Head = temp;
+    Node *head = new Node(arr[0]);
+    Node *tail = head;
+    for (int i = 1; i < arr.size(); i++)
+    {
+        Node *temp = new Node(arr[i]);
+        tail->next = temp;
+        tail = temp;
+    }
+    return head;
 }
-
-// insert at tail
-void insertAtTail(Node *&tail, int d)
-{
-    Node *temp = new Node(d);
-    tail->next = temp;
-    tail = tail->next;
-}
-
-// insert in the middle
-void insertAtnth(Node *&tail, Node *&Head, int position, int d)
-{
-    // insert at 1st position
-    if (position == 1)
-    {
-        insertAtHead(Head, d);
-        return;
-    }
-    Node *temp = Head;
-    int cnt = 1;
-    while (cnt < position)
-    {
-        temp = temp->next;
-        cnt++;
-    }
-    // insert at last position
-    if (temp->next == NULL)
-    {
-        insertAtTail(tail, d);
-        return;
-    }
-    Node *nodeToInsert = new Node(d);
-    nodeToInsert->next = temp->next;
-    temp->next = nodeToInsert;
-}
-
-// delete
-void deleteNode(int position, Node *&head)
-{
-
-    // deleting first or start node
-    if (position == 1)
-    {
-        Node *temp = head;
-        head = head->next;
-        // memory free start ndoe
-        temp->next = NULL;
-        delete temp;
-    }
-    else
-    {
-        // deleting any middle node or last node
-        Node *curr = head;
-        Node *prev = NULL;
-
-        int cnt = 1;
-        while (cnt < position)
-        {
-            prev = curr;
-            curr = curr->next;
-            cnt++;
-        }
-
-        prev->next = curr->next;
-        curr->next = NULL;
-        delete curr;
-    }
-}
-void print(Node *&head)
+void traverseLL(Node *head)
 {
     Node *temp = head;
     while (temp != NULL)
@@ -110,35 +46,56 @@ void print(Node *&head)
         cout << temp->data << " ";
         temp = temp->next;
     }
-    cout << endl;
+}
+bool searchAnElement(Node *head, int key)
+{
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        if (temp->data == key)
+        {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+int lengthOfLL(Node *head)
+{
+    int count = 0;
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        count++;
+        temp = temp->next;
+    }
+    return count;
 }
 int main()
 {
-    // creating a new node
-    Node *node1 = new Node(10);
-    // cout << node1->data << " ";
-    // cout << node1->next << " ";
+    // Node *node = new Node(4);
+    // cout << node->data << endl;
+    // cout << node->next << endl;
+    // delete (node);
 
-    // pointig head to node1
-    Node *head = node1;
-    Node *tail = node1;
-    // print(head);
-    // insertAtHead(head, 12);
-    // print(head);
-    // insertAtHead(head, 15);
-    // print(head);
-    print(head);
-    insertAtTail(tail, 33);
-    print(head);
-    insertAtTail(tail, 89);
-    print(head);
-    insertAtTail(tail, 94);
-    print(head);
-    insertAtnth(tail, head, 4, 22);
-    print(head);
-    cout << "Head " << head->data << endl;
-    cout << "Tail " << tail->data << endl;
-    deleteNode(1, head);
-    print(head);
+    vector<int> arr = {4, 6, 23, 55, 66, 99, 1};
+    // for (auto it : arr)
+    // {
+    //     cout << it << " ";
+    // }
+    Node *ans = convertArraytoLL(arr);
+    // cout << ans->data << endl;
+    // traverseLL(ans);
+
+    // if (searchAnElement(ans, 553))
+    // {
+    //     cout << "Element is present." << endl;
+    // }
+    // else
+    // {
+    //     cout << "Element is not present." << endl;
+    // }
+
+    cout << lengthOfLL(ans) << endl;
     return 0;
 }
