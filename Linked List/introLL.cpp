@@ -46,6 +46,7 @@ void traverseLL(Node *head)
         cout << temp->data << " ";
         temp = temp->next;
     }
+    cout << endl;
 }
 bool searchAnElement(Node *head, int key)
 {
@@ -70,6 +71,77 @@ int lengthOfLL(Node *head)
         temp = temp->next;
     }
     return count;
+}
+
+void insertAtHead(Node *&head, int data)
+{
+    Node *temp = new Node(data);
+    temp->next = head;
+    head = temp;
+}
+
+void insertAtTail(Node *&head, int data)
+{
+    Node *tail = head;
+    while (tail->next != NULL)
+    {
+        tail = tail->next;
+    }
+    Node *temp = new Node(data);
+    tail->next = temp;
+    tail = tail->next;
+    // cout << tail->data << endl;
+}
+
+void insertAtnthPos(Node *&head, int data, int pos) // pos= 5
+{
+    if (pos == 1)
+    {
+        insertAtHead(head, data);
+        return;
+    }
+    Node *temp = head;
+    int count = 1;
+    while (count < pos)
+    {
+        temp = temp->next;
+        count++;
+    }
+
+    if (temp->next == NULL)
+    {
+        insertAtTail(temp, data);
+        return;
+    }
+
+    Node *nodeToInsert = new Node(data);
+    nodeToInsert->next = temp->next;
+    temp->next = nodeToInsert;
+}
+void deleteNode(int position, Node *&head)
+{
+    if (position == 1)
+    {
+        Node *temp = head;
+        head = temp->next;
+        temp->next = NULL;
+        delete (temp);
+    }
+    else
+    {
+        Node *curr = head;
+        Node *prev = nullptr;
+        int count = 1;
+        while (count < position)
+        {
+            prev = curr;
+            curr = curr->next;
+            count++;
+        }
+        prev->next = curr->next;
+        curr->next = NULL;
+        delete (curr);
+    }
 }
 int main()
 {
@@ -96,6 +168,21 @@ int main()
     //     cout << "Element is not present." << endl;
     // }
 
-    cout << lengthOfLL(ans) << endl;
+    // cout << lengthOfLL(ans) << endl;
+
+    // creating LL from an array
+    vector<int> num = {12, 44, 55, 6};
+    Node *head = convertArraytoLL(num);
+    traverseLL(head);
+
+    // insert at head
+    insertAtHead(head, 9);
+    traverseLL(head);
+    insertAtTail(head, 40);
+    traverseLL(head);
+    insertAtnthPos(head, 15, 2);
+    traverseLL(head);
+    deleteNode(7, head);
+    traverseLL(head);
     return 0;
 }
