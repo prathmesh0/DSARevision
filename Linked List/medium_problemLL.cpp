@@ -109,6 +109,38 @@ Node *reverseLinkedList(Node *&head)
     return prev;
 }
 
+bool detectLoop(Node *head)
+{
+
+    // Initialize a pointer 'temp'
+    // at the head of the linked list
+    Node *temp = head;
+
+    // Create a map to keep track of
+    // encountered nodes
+    std::unordered_map<Node *, int> nodeMap;
+
+    // Step 2: Traverse the linked list
+    while (temp != nullptr)
+    {
+        // If the node is already in the
+        // map, there is a loop
+        if (nodeMap.find(temp) != nodeMap.end())
+        {
+            return true;
+        }
+        // Store the current node
+        // in the map
+        nodeMap[temp] = 1;
+
+        // Move to the next node
+        temp = temp->next;
+    }
+
+    // Step 3: If the list is successfully traversed
+    // without a loop, return false
+    return false;
+}
 int main()
 {
     vector<int> num = {1, 2, 3, 4, 5, 6};
@@ -120,5 +152,13 @@ int main()
     Node *temp = reverseLinkedList(head);
     traverseLL(temp);
 
+    if (detectLoop(head))
+    {
+        cout << "Loop detected in the linked list." << endl;
+    }
+    else
+    {
+        cout << "No loop detected in the linked list." << endl;
+    }
     return 0;
 }
