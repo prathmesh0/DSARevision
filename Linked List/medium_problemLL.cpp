@@ -112,34 +112,89 @@ Node *reverseLinkedList(Node *&head)
 bool detectLoop(Node *head)
 {
 
-    // Initialize a pointer 'temp'
-    // at the head of the linked list
-    Node *temp = head;
+    // Node *temp = head;
 
-    // Create a map to keep track of
-    // encountered nodes
-    std::unordered_map<Node *, int> nodeMap;
+    // unordered_map<Node *, int> nodeMap;
 
-    // Step 2: Traverse the linked list
-    while (temp != nullptr)
+    // while (temp != nullptr)
+    // {
+
+    //     if (nodeMap.find(temp) != nodeMap.end())
+    //     {
+    //         return true;
+    //     }
+
+    //     nodeMap[temp] = 1;
+
+    //     temp = temp->next;
+    // }
+
+    // return false;
+
+    Node *slow = head;
+    Node *fast = head;
+
+    while (fast != nullptr && fast->next != nullptr)
     {
-        // If the node is already in the
-        // map, there is a loop
-        if (nodeMap.find(temp) != nodeMap.end())
-        {
-            return true;
-        }
-        // Store the current node
-        // in the map
-        nodeMap[temp] = 1;
 
-        // Move to the next node
-        temp = temp->next;
+        slow = slow->next;
+
+        fast = fast->next->next;
+
+        if (slow == fast)
+        {
+            return true; // Loop detected
+        }
     }
 
-    // Step 3: If the list is successfully traversed
-    // without a loop, return false
     return false;
+}
+bool isPalindrome(Node *head)
+{
+
+    // stack<int> st;
+
+    // Node *temp = head;
+
+    // while (temp != NULL)
+    // {
+
+    //     st.push(temp->data);
+
+    //     temp = temp->next;
+    // }
+
+    // temp = head;
+
+    // while (temp != NULL)
+    // {
+    //     if (temp->data != st.top())
+    //     {
+
+    //         // it's not a palindrome
+    //         return false;
+    //     }
+
+    //     st.pop();
+
+    //     temp = temp->next;
+    // }
+
+    // return true;
+
+    if (head == NULL || head->next == NULL)
+    {
+        return head;
+    }
+
+    Node *newHead = reverseLinkedList(head->next);
+
+    Node *front = head->next;
+
+    front->next = head;
+
+    head->next = NULL;
+    return newHead;
 }
 int main()
 {
@@ -149,16 +204,18 @@ int main()
     // Node *middle = findMiddle(head);
     // cout << "The middle value " << middle->data << endl;
 
-    Node *temp = reverseLinkedList(head);
-    traverseLL(temp);
+    // Node *temp = reverseLinkedList(head);
+    // traverseLL(temp);
 
-    if (detectLoop(head))
-    {
-        cout << "Loop detected in the linked list." << endl;
-    }
-    else
-    {
-        cout << "No loop detected in the linked list." << endl;
-    }
+    // if (detectLoop(head))
+    // {
+    //     cout << "Loop detected in the linked list." << endl;
+    // }
+    // else
+    // {
+    //     cout << "No loop detected in the linked list." << endl;
+    // }
+
+    cout << isPalindrome(head);
     return 0;
 }
