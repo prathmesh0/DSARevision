@@ -285,13 +285,179 @@ bool isPalindrome(Node *head)
     head->next = NULL;
     return newHead;
 }
+
+Node *oddEvenList(Node *head)
+{
+    // if (head == NULL || head->next == NULL)
+    //     return head;
+    // Node *odd = head;
+    // Node *even = head->next;
+    // vector<int> ans;
+    // // odd index node
+    // while (odd != NULL && odd->next != NULL)
+    // {
+    //     ans.push_back(odd->data);
+    //     odd = odd->next->next;
+    // }
+    // if (odd != NULL)
+    // {
+    //     ans.push_back(odd->data);
+    // }
+    // // even index node
+    // while (even != NULL && even->next != NULL)
+    // {
+    //     ans.push_back(even->data);
+    //     even = even->next->next;
+    // }
+    // if (even != NULL)
+    // {
+    //     ans.push_back(even->data);
+    // }
+
+    // Node *temp = head;
+    // int i = 0;
+    // while (temp != NULL)
+    // {
+    //     temp->data = ans[i];
+    //     i++;
+    //     temp = temp->next;
+    // }
+    // return head;
+
+    // optimal
+    if (head == NULL || head->next == NULL)
+        return head;
+
+    Node *even = head->next;
+    Node *evenHead = head->next;
+    Node *odd = head;
+
+    while (even != NULL && even->next != NULL)
+    {
+        odd->next = odd->next->next;
+        even->next = even->next->next;
+
+        odd = odd->next;
+        even = even->next;
+    }
+    odd->next = evenHead;
+    return head;
+}
+
+Node *removeNthFromEnd(Node *head, int n)
+{
+    // Node *temp = head;
+    // int len = 0;
+    // while (temp != NULL)
+    // {
+    //     len++;
+    //     temp = temp->next;
+    // }
+
+    // if (n == len)
+    // {
+    //     head = head->next;
+    //     delete (temp);
+    //     return head;
+    // }
+    // int nodetoDelete = len - n;
+    // temp = head;
+    // while (temp != NULL)
+    // {
+    //     nodetoDelete--;
+    //     if (nodetoDelete == 0)
+    //     {
+    //         break;
+    //     }
+    //     temp = temp->next;
+    // }
+    // Node *temp2 = temp->next;
+    // temp->next = temp2->next;
+    // delete (temp2);
+
+    // return head;
+
+    // Optimal approach
+    Node *fast = head;
+    for (int i = 0; i < n; i++)
+    {
+        fast = fast->next;
+    }
+
+    if (fast == NULL)
+    {
+        Node *temp = head;
+        head = head->next;
+        delete (temp);
+        return head;
+    }
+    Node *slow = head;
+    while (fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    Node *nodeToDelete = slow->next;
+    slow->next = slow->next->next;
+    delete (nodeToDelete);
+    return head;
+}
+
+Node *deleteMiddle(Node *head)
+{
+    // if (head == NULL || head->next == NULL)
+    // {
+    //     return NULL;
+    // }
+    // Node *temp = head;
+    // int count = 0;
+    // while (temp != NULL)
+    // {
+    //     count++;
+    //     temp = temp->next;
+    // }
+
+    // temp = head;
+    // Node *prev = NULL;
+
+    // for (int i = 0; i < (count / 2); i++)
+    // {
+    //     prev = temp;
+    //     temp = temp->next;
+    // }
+    // prev->next = temp->next;
+    // delete (temp);
+    // return head;
+
+    // Optimal
+    if (head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
+    Node *slow = head;
+    Node *fast = head;
+    Node *prev = head;
+    while (fast != NULL && fast->next != NULL)
+    {
+        if (slow != head)
+        {
+            prev = prev->next;
+        }
+
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    prev->next = slow->next;
+    delete (slow);
+    return head;
+}
 int main()
 {
-    // vector<int> num = {1, 2, 3, 4, 5, 6};
-    // Node *head = convertArraytoLL(num);
+    vector<int> num = {1, 2, 3, 4, 5, 6};
+    Node *head = convertArraytoLL(num);
 
     // Node *middle = findMiddle(head);
-    // cout << "The middle value " << middle->data << endl;
+    // cout << "The middle dataue " << middle->data << endl;
 
     // Node *temp = reverseLinkedList(head);
     // traverseLL(temp);
@@ -307,34 +473,44 @@ int main()
 
     // cout << isPalindrome(head);
 
-    Node *node1 = new Node(1);
-    Node *node2 = new Node(2);
-    node1->next = node2;
-    Node *node3 = new Node(3);
-    node2->next = node3;
-    Node *node4 = new Node(4);
-    node3->next = node4;
-    Node *node5 = new Node(5);
-    node4->next = node5;
+    // Node *node1 = new Node(1);
+    // Node *node2 = new Node(2);
+    // node1->next = node2;
+    // Node *node3 = new Node(3);
+    // node2->next = node3;
+    // Node *node4 = new Node(4);
+    // node3->next = node4;
+    // Node *node5 = new Node(5);
+    // node4->next = node5;
 
-    // Make a loop from node5 to node2
-    node5->next = node2;
+    // // Make a loop from node5 to node2
+    // node5->next = node2;
 
-    // Set the head of the linked list
-    Node *head = node1;
+    // // Set the head of the linked list
+    // Node *head = node1;
 
-    // Detect the loop in the linked list
-    // Node *loopStartNode = detectCycle(head);
+    // // Detect the loop in the linked list
+    // // Node *loopStartNode = detectCycle(head);
 
-    // if (loopStartNode)
-    // {
-    //     cout << "Loop detected. Starting node of the loop is: " << loopStartNode->data << endl;
-    // }
-    // else
-    // {
-    //     cout << "No loop detected in the linked list." << endl;
-    // }
+    // // if (loopStartNode)
+    // // {
+    // //     cout << "Loop detected. Starting node of the loop is: " << loopStartNode->data << endl;
+    // // }
+    // // else
+    // // {
+    // //     cout << "No loop detected in the linked list." << endl;
+    // // }
 
-    cout << countNodesinLoop(head) << endl;
+    // cout << countNodesinLoop(head) << endl;
+
+    // Node *ans = oddEvenList(head);
+    // traverseLL(ans);
+
+    // Node *ans = removeNthFromEnd(head, 2);
+    // traverseLL(ans);
+
+    Node *ans = deleteMiddle(head);
+    traverseLL(ans);
+
     return 0;
 }
