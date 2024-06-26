@@ -451,6 +451,76 @@ Node *deleteMiddle(Node *head)
     delete (slow);
     return head;
 }
+// Node *sortList(Node *head)
+// {
+
+//     if (head == NULL || head->next == NULL)
+//         return head;
+//     Node *temp = head;
+//     vector<int> arr;
+//     while (temp != NULL)
+//     {
+//         arr.push_back(temp->data);
+//         temp = temp->next;
+//     }
+//     sort(arr.begin(), arr.end());
+//     temp = head;
+//     int i = 0;
+//     while (temp != NULL)
+//     {
+//         temp->data = arr[i];
+//         temp = temp->next;
+//         i++;
+//     }
+//     return head;
+// }
+Node *mergeList(Node *l1, Node *l2)
+{
+    if (l1 == NULL)
+        return l2;
+    if (l2 == NULL)
+        return l1;
+    if (l1->data > l2->data)
+    {
+        swap(l1, l2);
+    }
+    Node *res = l1;
+    while (l1 != NULL && l2 != NULL)
+    {
+        Node *temp = NULL;
+        while (l1 != NULL && l1->data <= l2->data)
+        {
+            temp = l1;
+            l1 = l1->next;
+        }
+        temp->next = l2;
+        swap(l1, l2);
+    }
+    return res;
+}
+
+Node *sortList(Node *head)
+{
+    if (head == NULL || head->next == NULL)
+        return head;
+
+    // middle
+    Node *slow = head;
+    Node *fast = head;
+    Node *temp = head;
+
+    while (fast != NULL && fast->next != NULL)
+    {
+        temp = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    temp->next = NULL;
+
+    Node *l = sortList(head);
+    Node *r = sortList(slow);
+    return mergeList(l, r);
+}
 int main()
 {
     vector<int> num = {1, 2, 3, 4, 5, 6};
@@ -509,7 +579,10 @@ int main()
     // Node *ans = removeNthFromEnd(head, 2);
     // traverseLL(ans);
 
-    Node *ans = deleteMiddle(head);
+    // Node *ans = deleteMiddle(head);
+    // traverseLL(ans);
+
+    Node *ans = sortList(head);
     traverseLL(ans);
 
     return 0;
