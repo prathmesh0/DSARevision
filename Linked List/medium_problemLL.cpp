@@ -678,6 +678,35 @@ Node *addOne(Node *head)
     }
     return head;
 }
+
+Node *addTwoNumbers(Node *l1, Node *l2)
+{
+    Node *dummy = new Node();
+    Node *temp = dummy;
+    int carry = 0;
+    while ((l1 != NULL || l2 != NULL) || carry)
+    {
+        int sum = 0;
+        if (l1 != NULL)
+        {
+            sum += l1->data;
+            l1 = l1->next;
+        }
+
+        if (l2 != NULL)
+        {
+            sum += l2->data;
+            l2 = l2->next;
+        }
+
+        sum += carry;
+        carry = sum / 10;
+        Node *node = new Node(sum % 10);
+        temp->next = node;
+        temp = temp->next;
+    }
+    return dummy->next;
+}
 int main()
 {
     // vector<int> num = {0, 2, 2, 2, 1, 2, 1, 0};
@@ -746,8 +775,12 @@ int main()
     // traverseLL(count);
 
     vector<int> num1 = {1, 5, 9};
+    vector<int> num2 = {1};
     Node *head = convertArraytoLL(num1);
-    Node *ans = addOne(head);
+    Node *head1 = convertArraytoLL(num2);
+    // Node *ans = addOne(head);
+
+    Node *ans = addTwoNumbers(head, head1);
     traverseLL(ans);
 
     return 0;
