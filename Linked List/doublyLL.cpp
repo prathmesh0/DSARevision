@@ -1,93 +1,117 @@
+
+
 #include <bits/stdc++.h>
 using namespace std;
 
-// Define the Node structure
-struct Node
+class Node
 {
+public:
     int data;
-    Node *next;
-    Node *prev;
+    Node *next, *prev;
+    Node(int val) : data(val), next(NULL), prev(NULL)
+    {
+    }
 };
 
-// Function to delete all occurrences of a given value in the linked list
-void deleteAllOccurOfX(Node **head_ref, int x)
-{
-    Node *curr = *head_ref; // start from the head of the list
-    Node *prev = NULL;      // initialize prev pointer to NULL
+// } Driver Code Ends
+// User function Template for C++
 
-    // Traverse the list
-    while (curr != NULL)
+/* Doubly linked list node class
+class Node
+{
+public:
+    int data;
+    Node *next, *prev;
+    Node(int val) : data(val), next(NULL), prev(NULL)
     {
-        if (curr->data == x)
-        { // if current node contains key
-            if (curr == *head_ref)
-            {                                 // if key is in head
-                *head_ref = curr->next;       // move head to next node
-                if (*head_ref != NULL)        // if head is not NULL
-                    (*head_ref)->prev = NULL; // make prev of new head NULL
+    }
+};
+*/
+
+class Solution
+{
+public:
+    vector<pair<int, int>> findPairsWithGivenSum(Node *head, int target)
+    {
+        // Node* temp1 = head;
+        // vector<pair<int, int>>ans;
+        // while(temp1 != NULL){
+        //     Node* temp2  = temp1->next;
+        //     while(temp2 != NULL && temp1->data + temp2->data <= target){
+        //         if(temp1->data + temp2->data == target){
+        //             ans.push_back({temp1->data, temp2->data});
+        //         }
+        //         temp2 = temp2->next;
+        //     }
+        //         temp1 = temp1->next;
+        // }
+        // return ans;
+
+        // Optimal Approach
+        Node *left = head;
+        Node *right = head;
+        while (right->next != NULL)
+        {
+            right = right->next;
+        }
+        vector<pair<int, int>> ans;
+        while (left->data < right->data)
+        {
+            if (left->data + right->data == target)
+            {
+                ans.push_back({left->data, right->data});
+                left = left->next;
+                right = right->prev;
+            }
+            else if (left->data + right->data < target)
+            {
+                left = left->next;
             }
             else
             {
-                prev->next = curr->next;     // skip current node
-                if (curr->next != NULL)      // if not end node
-                    curr->next->prev = prev; // change prev of next node
+                right = right->prev;
             }
-            Node *temp = curr; // free memory of current node
-            curr = curr->next;
-            delete temp;
         }
-        else
-        {                      // if current node doesn't contain key
-            prev = curr;       // update prev pointer
-            curr = curr->next; // move to next node
-        }
+        return ans;
     }
-}
+};
 
-// Function to push a new node at the beginning of the list
-void push(Node **head_ref, int new_data)
-{
-    Node *new_node = new Node();
-    new_node->data = new_data;
-    new_node->next = (*head_ref);
-    new_node->prev = NULL;
-    if ((*head_ref) != NULL)
-        (*head_ref)->prev = new_node;
-    (*head_ref) = new_node;
-}
-
-// Function to print the linked list
-void printList(Node *node)
-{
-    while (node != NULL)
-    {
-        std::cout << node->data << " ";
-        node = node->next;
-    }
-    std::cout << std::endl;
-}
+//{ Driver Code Starts.
 
 int main()
 {
-    /* Start with the empty list */
-    Node *head = NULL;
-
-    /* Let us create the doubly linked list 10<->8<->4<->10<->2<->10 */
-    push(&head, 10);
-    push(&head, 2);
-    push(&head, 10);
-    push(&head, 4);
-    push(&head, 8);
-    push(&head, 10);
-
-    std::cout << "Created Linked list: ";
-    printList(head);
-
-    // Delete all occurrences of 10
-    deleteAllOccurOfX(&head, 10);
-
-    std::cout << "List after deleting all occurrences of 10: ";
-    printList(head);
-
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n, target;
+        cin >> target >> n;
+        int a;
+        cin >> a;
+        Node *head = new Node(a);
+        Node *tail = head;
+        for (int i = 0; i < n - 1; i++)
+        {
+            cin >> a;
+            tail->next = new Node(a);
+            tail->next->prev = tail;
+            tail = tail->next;
+        }
+        Solution ob;
+        auto ans = ob.findPairsWithGivenSum(head, target);
+        if (ans.size() == 0)
+            cout << "-1";
+        else
+        {
+            for (int i = 0; i < ans.size(); i++)
+            {
+                cout << "(" << ans[i].first << "," << ans[i].second << ")"
+                     << " ";
+            }
+        }
+        cout << "\n";
+    }
     return 0;
 }
+
+// } Driver Code Ends
