@@ -76,6 +76,66 @@ public:
     }
 };
 
+Node *removeDuplicates(struct Node *head)
+{
+    Node *temp = head;
+    while (temp != NULL && temp->next != NULL)
+    {
+        Node *nextNode = temp->next;
+        while (nextNode != NULL && nextNode->data == temp->data)
+        {
+            Node *duplicate = nextNode;
+            nextNode = nextNode->next;
+            free(duplicate);
+        }
+        temp->next = nextNode;
+        if (nextNode)
+            nextNode->prev = temp;
+        temp = temp->next;
+    }
+
+    return head;
+}
+
+struct Node *head = *head_ref;
+struct Node *temp = head;
+
+while (temp != NULL)
+{
+    if (temp->data == x)
+    {
+        // If temp is the head node
+        if (temp == head)
+        {
+            head = head->next;
+            if (head != NULL)
+            {
+                head->prev = NULL;
+            }
+            *head_ref = head; // Update the head reference
+        }
+        else
+        {
+            struct Node *nextNode = temp->next;
+            struct Node *prevNode = temp->prev;
+
+            if (nextNode)
+                nextNode->prev = prevNode;
+            if (prevNode)
+                prevNode->next = nextNode;
+        }
+        struct Node *nodeToDelete = temp;
+        temp = temp->next;
+        free(nodeToDelete);
+    }
+    else
+    {
+        temp = temp->next;
+    }
+}
+
+
+
 //{ Driver Code Starts.
 
 int main()
