@@ -126,6 +126,63 @@ int countSetBits(int n)
     }
     return cnt;
 }
+
+int divide(int dividend, int divisor)
+{
+    // Brute force approach
+
+    // int sum = 0;
+    // int cnt = 0;
+    // bool sign = true;//+ve sign
+    // if((dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0)) {
+    // sign = false;
+    // }
+    // int n = abs(dividend);
+    // int d = abs(divisor);
+    // while(sum+d <= n){
+    //     cnt++;
+    //     sum += d;
+    // }
+    // if(sign == true){
+    //     return cnt;
+    // }
+    // return (cnt*-1);
+
+    // Optimal Approach
+
+    if (dividend == divisor)
+        return 1;
+    bool sign = true; // Positive
+    if (dividend >= 0 && divisor < 0)
+        sign = false;
+    else if (dividend < 0 && divisor > 0)
+        sign = false;
+
+    long n = abs(dividend);
+    long d = abs(divisor);
+    long quotient = 0;
+
+    while (n >= d)
+    {
+        int cnt = 0;
+        while (n >= (d << (cnt + 1)))
+        {
+            cnt += 1;
+        }
+        quotient += (1 << cnt);
+        n -= (d << cnt);
+    }
+
+    if (quotient == (1 << 31) && sign)
+    {
+        return INT_MAX;
+    }
+    if (quotient == (1 << 31) && !sign)
+    {
+        return INT_MIN;
+    }
+    return sign ? quotient : -quotient;
+}
 int main()
 {
 
@@ -144,7 +201,8 @@ int main()
     // cout << removelastSetBit(16);
     // cout << isPowerOfTwo(16) << endl;
     // cout << oddEven(8) << endl;
-    cout << countSetBits(13) << endl;
+    // cout << countSetBits(13) << endl;
+    cout << divide(22, 3) << endl;
 
     return 0;
 }
