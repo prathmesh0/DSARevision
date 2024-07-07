@@ -250,6 +250,113 @@ int singleNumber(vector<int> &nums)
     }
     return ans;
 }
+int singleNumberTwo(vector<int> &nums)
+{
+    // Brute force
+    //  unordered_map<int, int> mpp;
+    //  for (auto it : nums)
+    //  {
+    //      mpp[it]++;
+    //  }
+
+    // for (auto it : mpp)
+    // {
+    //     if (it.second == 1)
+    //     {
+    //         return it.first;
+    //     }
+    // }
+    // return -1;
+
+    // Better approach
+    // int ans = 0;
+    // int n = nums.size();
+    // for (int bitIndex = 0; bitIndex <= 31; bitIndex++)
+    // {
+    //     int cnt = 0;
+    //     for (int i = 0; i < n; i++)
+    //     {
+    //         if (nums[i] & (1 << bitIndex))
+    //             cnt++;
+    //     }
+    //     if (cnt % 3 == 1)
+    //     {
+    //         ans = ans | (1 << bitIndex);
+    //     }
+    // }
+    // return ans;
+    // Better approach
+
+    // int n = nums.size();
+    // sort(nums.begin(), nums.end());
+    // for (int i = 1; i < n; i = i + 3)
+    // {
+    //     if (nums[i - 1] != nums[i])
+    //     {
+    //         return (nums[i - 1]);
+    //     }
+    // }
+    // return nums[n - 1];
+
+    // Optimal Approch
+    int ones = 0, twos = 0;
+    int n = nums.size();
+    for (int i = 0; i < n; i++)
+    {
+        ones = (ones ^ nums[i]) & ~twos;
+        twos = (twos ^ nums[i]) & ~ones;
+    }
+    return ones;
+}
+
+vector<int> singleNumberThree(vector<int> &nums)
+{
+    // brute force appoach
+    // vector<int> ans;
+    // unordered_map<int, int> mpp;
+    // for (auto it : nums)
+    // {
+    //     mpp[it]++;
+    // }
+
+    // for (auto it : mpp)
+    // {
+    //     if (it.second == 1)
+    //     {
+    //         ans.push_back(it.first);
+    //     }
+    // }
+    // return ans;
+
+    // Optimal approach
+    long num = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        num ^= nums[i];
+    }
+    long int rem = num & (-num);
+
+    long int b1 = 0;
+    long int b2 = 0;
+    for (int i = 0; i < nums.size(); i++)
+    {
+        if (nums[i] & rem)
+        {
+
+            b1 ^= nums[i];
+        }
+        else
+        {
+
+            b2 ^= nums[i];
+        }
+    }
+    vector<int> ans;
+    ans.push_back(b1);
+    ans.push_back(b2);
+
+    return ans;
+}
 int main()
 {
 
