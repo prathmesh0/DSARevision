@@ -33,7 +33,7 @@ void print_divisors(int n)
     }
 }
 
-void isPrime(int n)
+bool isPrime(int n)
 {
 
     // Brute force approach
@@ -64,9 +64,12 @@ void isPrime(int n)
         }
     }
     if (cnt == 2)
-        cout << "Prime" << endl;
+        return true;
+    // cout << "Prime" << endl;
+
     else
-        cout << " Not Prime" << endl;
+        return false;
+    // cout << " Not Prime" << endl;
 }
 double myPow(double x, int n)
 {
@@ -91,11 +94,108 @@ double myPow(double x, int n)
     }
     return ans;
 }
+vector<int> primeFactor(int n)
+{
+    // vector<int> ans;
+    // for (int i = 2; i <= n; i++)
+    // {
+    //     if (n % i == 0)
+    //     {
+    //         if (isPrime(i))
+    //         {
+    //             ans.push_back(i);
+    //         }
+    //     }
+    // }
+    // return ans;
 
+    // better approch
+    // vector<int> ans;
+    // for (int i = 2; i * i <= n; i++)
+    // {
+    //     if (n % i == 0)
+    //     {
+    //         if (isPrime(i))
+    //         {
+    //             ans.push_back(i);
+    //         }
+    //         if ((n / i) != i)
+    //         {
+    //             if (isPrime(n / i))
+    //             {
+    //                 ans.push_back(n / i);
+    //             }
+    //         }
+    //     }
+    // }
+    // return ans;
+
+    // Better approach 2
+    // vector<int> ans;
+    // for (int i = 2; i <= n; i++)
+    // {
+    //     if (n % i == 0)
+    //     {
+    //         ans.push_back(i);
+    //         while (n % i == 0)
+    //         {
+    //             n = n / i;
+    //         }
+    //     }
+    // }
+    // return ans;
+
+    // Optimal approach
+    vector<int> ans;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            ans.push_back(i);
+            while (n % i == 0)
+            {
+                n = n / i;
+            }
+        }
+    }
+    if (n != 1)
+        ans.push_back(n);
+    return ans;
+}
+int countPrimes(int n)
+{
+    int cnt = 0;
+    vector<int> isPrime(n + 1, 1);
+
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (isPrime[i] == 1)
+        {
+
+            for (int j = i * i; j <= n; j += i)
+            {
+                isPrime[j] = 0;
+            }
+        }
+    }
+    for (int i = 2; i < n; i++)
+    {
+        if (isPrime[i] == 1)
+            cnt++;
+    }
+    return cnt;
+}
 int main()
 {
-    int n = 36;
+    int n = 60;
     // print_divisors(n);
-    isPrime(13);
+    // isPrime(13);
+    // vector<int> ans;
+    // ans = primeFactor(n);
+    // for (auto it : ans)
+    // {
+    //     cout << it << " ";
+    // }
+    cout << countPrimes(10) << endl;
     return 0;
 }
