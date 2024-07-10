@@ -842,8 +842,8 @@ string firstRepChar(string s)
 
 long binarySubstring(int n, string a)
 {
-    //Brute force
-    // long count = 0;
+    // Brute force
+    //  long count = 0;
 
     // for (int i = 0; i < n; i++)
     // {
@@ -874,6 +874,24 @@ long binarySubstring(int n, string a)
 
     long ans = count * (count - 1) / 2;
     return ans;
+}
+int minOperations(vector<string> &logs)
+{
+    int count = 0;
+    for (auto log : logs)
+    {
+        if (log == "../")
+        {
+            if (count > 0)
+                count--;
+        }
+        else if (log != "./")
+        {
+
+            count++;
+        }
+    }
+    return count;
 }
 
 int main()
