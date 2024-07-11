@@ -894,6 +894,15 @@ int minOperations(vector<string> &logs)
     return count;
 }
 
+long long int countStr(long long int n)
+{
+    // return ((n^3 )+ (3*n) + 2)/2;
+    long long a = n * n * n;
+    long long b = 3 * n;
+    long long c = 2;
+    return (a + b + c) / 2;
+}
+
 int main()
 {
 
