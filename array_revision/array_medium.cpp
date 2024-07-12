@@ -522,7 +522,7 @@ int longestSuccessiveElements(vector<int> &arr)
 
     for (auto it : st)
     {
-        if (st.find(it-1) == st.end())
+        if (st.find(it - 1) == st.end())
         {
             int count = 1;
             int x = it;
@@ -664,6 +664,47 @@ vector<int> nextGreaterPermutation(vector<int> &A)
     return A;
 }
 
+void Rotatetoright(int arr[], int n, int k)
+{
+    if (n == 0)
+        return;
+    if (k > n)
+        return;
+
+    int temp[k];
+    for (int i = n - k; i < n; i++)
+    {
+        temp[i - n + k] = arr[i];
+    }
+
+    for (int i = n - k - 1; i >= 0; i--)
+    {
+        arr[i + k] = arr[i];
+    }
+    for (int i = 0; i < k; i++)
+    {
+        arr[i] = temp[i];
+    }
+}
+
+void reverse(vector<int> &arr, int s, int e)
+{
+    while (s < e)
+    {
+        swap(arr[s], arr[e]);
+        s++;
+        e--;
+    }
+}
+
+void rotate(vector<int> &nums, int k)
+{
+    int n = nums.size();
+    k = k % n;
+    reverse(nums, 0, n - k - 1);
+    reverse(nums, n - k, n - 1);
+    reverse(nums, 0, n - 1);
+}
 int main()
 {
     // vector<int> arr1 = {2, 6, 5, 8, 11};
@@ -748,6 +789,17 @@ int main()
     //     cout << it << " ";
     // }
     // cout << "]\n";
+
+    int n = 7;
+    int arr[7] = {1, 2, 3, 4, 5, 6, 7};
+    int k = 2;
+    Rotatetoright(arr, n, k);
+    cout << "After Rotating the elements to right " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    return 0;
 
     return 0;
 }
