@@ -248,7 +248,7 @@ public:
 bool isValid(string s)
 {
     stack<char> st;
-    for (auto it : s)
+    for (auto it : s)  //traverse string
     {
         if (it == '(' || it == '{' || it == '[')
             st.push(it);
