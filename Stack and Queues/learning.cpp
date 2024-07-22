@@ -60,17 +60,17 @@ public:
 
     Queue(int maxSize)
     {
-        (*this).maxSize = maxSize;
+        this->maxSize = maxSize;
         arr = new int[maxSize];
         start = -1;
         end = -1;
         currSize = 0;
     }
-    void push(int newElement)
+    void push(int d)
     {
         if (currSize == maxSize)
         {
-            cout << "Queue is full\nExiting..." << endl;
+            cout << "Queue is full " << endl;
             exit(1);
         }
         if (end == -1)
@@ -79,16 +79,20 @@ public:
             end = 0;
         }
         else
+        {
             end = (end + 1) % maxSize;
-        arr[end] = newElement;
-        cout << "The element pushed is " << newElement << endl;
+        }
+        arr[end] = d;
+        cout << "The element pushed is " << d << endl;
         currSize++;
     }
-    int pop()
+
+    void pop()
     {
         if (start == -1)
         {
-            cout << "Queue Empty\nExiting..." << endl;
+            cout << "Queue is empty" << endl;
+            exit(1);
         }
         int popped = arr[start];
         if (currSize == 1)
@@ -97,19 +101,23 @@ public:
             end = -1;
         }
         else
+        {
             start = (start + 1) % maxSize;
+        }
         currSize--;
         return popped;
     }
+
     int top()
     {
         if (start == -1)
         {
-            cout << "Queue is Empty" << endl;
+            cout << "Queue is empty" << endl;
             exit(1);
         }
         return arr[start];
     }
+
     int size()
     {
         return currSize;
@@ -149,7 +157,7 @@ public:
 };
 
 // Queue using stack
-struct Queue
+struct Queue1
 {
     stack<int> input, output;
 
@@ -344,16 +352,16 @@ int main()
     // cout << "Size of stack after deleting an element " << s.Size() << endl;
     // cout << "Top of stack after deleting an element " << s.Top() << endl;
 
-    // Queue q(6);
-    // q.push(4);
-    // q.push(14);
-    // q.push(24);
-    // q.push(34);
-    // cout << "The peek of the queue before deleting any element " << q.top() << endl;
-    // cout << "The size of the queue before deletion " << q.size() << endl;
-    // cout << "The first element to be deleted " << q.pop() << endl;
-    // cout << "The peek of the queue after deleting an element " << q.top() << endl;
-    // cout << "The size of the queue after deleting an element " << q.size() << endl;
+    Queue q(6);
+    q.push(4);
+    q.push(14);
+    q.push(24);
+    q.push(34);
+    cout << "The peek of the queue before deleting any element " << q.top() << endl;
+    cout << "The size of the queue before deletion " << q.size() << endl;
+    cout << "The first element to be deleted " << q.pop() << endl;
+    cout << "The peek of the queue after deleting an element " << q.top() << endl;
+    cout << "The size of the queue after deleting an element " << q.size() << endl;
 
     string s = "()[{}()]";
     if (isValid(s))
