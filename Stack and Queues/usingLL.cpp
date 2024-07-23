@@ -144,6 +144,128 @@ void Queue ::Dequeue()
     }
 }
 
+class MinStack
+{
+    //     stack<pair<int, int>> st;
+
+    // public:
+    //     MinStack()
+    //     {
+    //     }
+
+    //     void push(int val)
+    //     {
+    //         int mini = INT_MAX;
+    //         if (st.empty())
+    //         {
+    //             mini = val;
+    //         }
+    //         else
+    //         {
+    //             mini = min(st.top().second, val);
+    //         }
+    //         st.push({val, mini});
+    //     }
+
+    //     void pop()
+    //     {
+    //         if (st.empty())
+    //         {
+    //             return;
+    //         }
+    //         else
+    //         {
+    //             st.pop();
+    //         }
+    //     }
+
+    //     int top()
+    //     {
+    //         if (st.empty())
+    //         {
+    //             return -1;
+    //         }
+    //         int topped = st.top().first;
+    //         return topped;
+    //     }
+
+    //     int getMin()
+    //     {
+    //         if (st.empty())
+    //         {
+    //             return -1;
+    //         }
+    //         return st.top().second;
+    //     }
+
+    // Optimal approach
+    stack<long long> st;
+    long long mini;
+
+public:
+    MinStack()
+    {
+        while (st.empty() == false)
+            st.pop();
+        mini = INT_MAX;
+    }
+
+    void push(int val)
+    {
+        long long x = static_cast<long long>(val);
+        if (st.empty())
+        {
+            mini = x;
+            st.push(x);
+        }
+        else
+        {
+            if (x < mini)
+            {
+                st.push(2 * x - mini);
+                mini = x;
+            }
+            else
+            {
+                st.push(x);
+            }
+        }
+    }
+
+    void pop()
+    {
+        if (st.empty())
+        {
+            return;
+        }
+        long long el = st.top();
+        st.pop();
+        if (el < mini)
+        {
+            mini = 2 * mini - el;
+        }
+    }
+
+    int top()
+    {
+        if (st.empty())
+        {
+            return -1;
+        }
+        long long el = st.top();
+        if (el < mini)
+        {
+            return mini;
+        }
+        return el;
+    }
+
+    int getMin()
+    {
+        return mini;
+    }
+};
+
 int main()
 {
     // Stack s;
