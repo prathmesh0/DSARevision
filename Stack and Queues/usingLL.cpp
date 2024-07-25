@@ -283,6 +283,32 @@ queue<int> rev(queue<int> q)
     }
     return q;
 }
+
+queue<int> modifyQueue(queue<int> q, int k)
+{
+    if (k > q.size())
+        return q;
+    stack<int> st;
+    int cnt = k;
+    while (cnt--)
+    {
+        st.push(q.front());
+        q.pop();
+    }
+    while (!st.empty())
+    {
+        q.push(st.top());
+        st.pop();
+    }
+
+    int x = q.size() - k;
+    while (x--)
+    {
+        q.push(q.front());
+        q.pop();
+    }
+    return q;
+}
 int main()
 {
     // Stack s;
