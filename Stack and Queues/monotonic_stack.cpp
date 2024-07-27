@@ -82,6 +82,38 @@ vector<int> nextGreaterElementII(int N, vector<int> &arr)
     return nge;
 }
 
+vector<int> leftSmaller(int n, int arr[])
+{
+    // vector<int> ans(n, -1);
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     for (int j = i - 1; j >= 0; j--)
+    //     {
+    //         if (arr[j] < arr[i])
+    //         {
+    //             ans[i] = arr[j];
+    //             break;
+    //         }
+    //     }
+    // }
+    // return ans;
+
+    // Optimal
+    stack<int> st;
+    vector<int> ans(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        while (!st.empty() && arr[i] <= st.top())
+        {
+            st.pop();
+        }
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(arr[i]);
+    }
+    return ans;
+}
 int main()
 {
     vector<int> arr1 = {1, 2, 3, 4, 3};
@@ -99,6 +131,16 @@ int main()
 
     cout << "Next Greater Elements for Linear Array: ";
     for (long long val : ans2)
+    {
+        cout << val << " ";
+    }
+    cout << endl;
+
+    int arr[] = {4, 5, 2, 10, 8};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    vector<int> result = leftSmaller(n, arr);
+    for (int val : result)
     {
         cout << val << " ";
     }
