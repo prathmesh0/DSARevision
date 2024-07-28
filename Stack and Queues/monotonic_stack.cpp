@@ -114,6 +114,51 @@ vector<int> leftSmaller(int n, int arr[])
     }
     return ans;
 }
+void helper(stack<int> &s, int n, int ind)
+{
+
+    if (ind == n / 2)
+    {
+        s.pop();
+        return;
+    }
+    int x = s.top();
+    s.pop();
+    ind++;
+
+    helper(s, n, ind);
+
+    s.push(x);
+}
+void deleteMid(stack<int> &s, int sizeOfStack)
+{
+
+    // Brute force appraoch
+
+    // stack<int>st;
+    // int m = sizeOfStack/2;
+    // int i = 0;
+
+    // while(!s.empty()){
+    //     st.push(s.top());
+    //     s.pop();
+    //     i++;
+
+    //     if(i == m){
+    //         s.pop();
+    //     }
+
+    // }
+
+    // while(!st.empty()){
+    //     s.push(st.top());
+    //     st.pop();
+    // }
+
+    // Optimal approach
+
+    helper(s, sizeOfStack, 0);
+}
 int main()
 {
     vector<int> arr1 = {1, 2, 3, 4, 3};
