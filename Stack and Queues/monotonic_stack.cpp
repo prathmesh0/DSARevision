@@ -159,6 +159,96 @@ void deleteMid(stack<int> &s, int sizeOfStack)
 
     helper(s, sizeOfStack, 0);
 }
+
+int trap(vector<int> &height)
+{
+    // Brute force approach
+    //  int n = height.size();
+    //  int trapeWater = 0;
+
+    // for (int i = 0; i < n; i++)
+    // {
+
+    //     int j = i;
+    //     int leftMax = 0, rightMax = 0;
+    //     // left nearest maximum height
+    //     while (j >= 0)
+    //     {
+    //         leftMax = max(leftMax, height[j]);
+    //         j--;
+    //     }
+    //     j = i;
+    //     // right nearest maximum height
+    //     while (j < n)
+    //     {
+    //         rightMax = max(rightMax, height[j]);
+    //         j++;
+    //     }
+    //     trapeWater += min(leftMax, rightMax) - height[i];
+    // }
+    // return trapeWater;
+
+    // Better approach
+
+    // int n = height.size();
+    // vector<int> prefix(n, 0);
+    // vector<int> suffix(n, 0);
+    // int trapeWater = 0;
+
+    // prefix[0] = height[0];
+    // for (int i = 1; i < n; i++)
+    // {
+    //     prefix[i] = max(prefix[i - 1], height[i]);
+    // }
+    // suffix[n - 1] = height[n - 1];
+    // for (int i = n - 2; i >= 0; i--)
+    // {
+    //     suffix[i] = max(suffix[i + 1], height[i]);
+    // }
+
+    // // calculate trape water
+    // for (int i = 0; i < n; i++)
+    // {
+    //     trapeWater += min(prefix[i], suffix[i]) - height[i];
+    // }
+    // return trapeWater;
+
+    // Optimal approach
+    int n = height.size();
+    int left = 0, right = n - 1;
+    int maxLeft = 0, maxRight = 0;
+    int res = 0;
+
+    while (left <= right)
+    {
+        if (height[left] <= height[right])
+        {
+            if (height[left] >= maxLeft)
+            {
+                maxLeft = height[left];
+            }
+            else
+            {
+                res += maxLeft - height[left];
+            }
+            left++;
+        }
+        else
+        {
+            if (height[right] >= maxRight)
+            {
+                maxRight = height[right];
+            }
+            else
+            {
+                res += maxRight - height[right];
+            }
+            right--;
+        }
+    }
+    return res;
+}
+
 int main()
 {
     vector<int> arr1 = {1, 2, 3, 4, 3};
