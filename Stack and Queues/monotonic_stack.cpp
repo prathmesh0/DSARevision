@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+int mod = 1e9 + 7;
 vector<long long> nextLargerElementI(vector<long long> arr, int n)
 {
     // vector<long long> nge(n, -1);
@@ -249,6 +249,69 @@ int trap(vector<int> &height)
     return res;
 }
 
+vector<int> findNSE(vector<int> &arr)
+{
+    int n = arr.size();
+    vector<int> ans(n);
+    stack<int> st;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        while (!st.empty() && arr[st.top()] >= arr[i])
+        {
+            st.pop();
+        }
+        ans[i] = st.empty() ? n : st.top();
+        st.push(i);
+    }
+    return ans;
+}
+
+vector<int> findPSEE(vector<int> &arr)
+{
+    int n = arr.size();
+    vector<int> ans(n);
+    stack<int> st;
+    for (int i = 0; i < n; i++)
+    {
+        while (!st.empty() && arr[st.top()] > arr[i])
+        {
+            st.pop();
+        }
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(i);
+    }
+    return ans;
+}
+int sumSubarrayMins(vector<int> &arr)
+{
+    // brute force approach
+    //  long long sum = 0;
+    //  int n = arr.size();
+    //  for (int i = 0; i < n; i++)
+    //  {
+    //      int mini = arr[i];
+    //      for (int j = i; j < n; j++)
+    //      {
+    //          mini = min(mini, arr[j]);
+    //          sum = (sum + mini) % mod;
+    //      }
+    //  }
+    //  return sum;
+
+    // optimal approach
+    int n = arr.size();
+    vector<int> nse = findNSE(arr);
+    vector<int> pse = findPSEE(arr);
+    long long total = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        long long left = i - pse[i];
+        long long right = nse[i] - i;
+        total = (total + ((right * left % mod) * arr[i] % mod)) % mod;
+    }
+    return (int)total;
+}
 int main()
 {
     vector<int> arr1 = {1, 2, 3, 4, 3};
